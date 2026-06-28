@@ -788,27 +788,27 @@ input  { font-family: inherit; }
       </div>
     </div>
 
-    <!-- ЭКСТРЕННЫЙ РАЗДЕЛ -->
-    <div class="section-title">Экстренные</div>
+    <!-- 1. ЭКСТРЕННЫЕ -->
+    <div class="section-title">🚨 Экстренные</div>
     <div class="menu-grid">
       <button class="menu-btn urgent" onclick="openSection('call')">
-        <div class="btn-icon">🚨</div>
+        <div class="btn-icon">📞</div>
         <div class="btn-info">
           <div class="btn-title">Первый звонок</div>
-          <div class="btn-desc">Чеклист вопросов клиенту · Инструкции</div>
+          <div class="btn-desc">Чеклист · Инструкции · Скрипты</div>
         </div>
         <div class="btn-arrow">›</div>
       </button>
     </div>
 
-    <!-- АНАЛИЗ -->
-    <div class="section-title">Анализ на месте</div>
+    <!-- 2. НА ВЫЕЗДЕ -->
+    <div class="section-title">🔍 На выезде</div>
     <div class="menu-grid">
       <button class="menu-btn primary" onclick="openSection('analysis')">
         <div class="btn-icon">🔍</div>
         <div class="btn-info">
           <div class="btn-title">Анализ машины</div>
-          <div class="btn-desc">PowerShell команды · Красные флаги</div>
+          <div class="btn-desc">PowerShell · Красные флаги · Доказательства</div>
         </div>
         <div class="btn-arrow">›</div>
       </button>
@@ -820,37 +820,66 @@ input  { font-family: inherit; }
         </div>
         <div class="btn-arrow">›</div>
       </button>
-    </div>
-
-    <!-- ВОССТАНОВЛЕНИЕ -->
-    <div class="section-title">Восстановление</div>
-    <div class="menu-grid">
-      <button class="menu-btn success" onclick="openSection('1c')">
+      <button class="menu-btn primary" onclick="openSection('1c')">
         <div class="btn-icon">🏥</div>
         <div class="btn-info">
           <div class="btn-title">Восстановление 1С</div>
-          <div class="btn-desc">Из .dt · Из теневой копии · Нет бэкапа</div>
-        </div>
-        <div class="btn-arrow">›</div>
-      </button>
-      <button class="menu-btn success" onclick="openSection('wazuh')">
-        <div class="btn-icon">🛡️</div>
-        <div class="btn-info">
-          <div class="btn-title">Wazuh мониторинг</div>
-          <div class="btn-desc">Установка агента · Проверка</div>
+          <div class="btn-desc">Из .dt · Теневая копия · Нет бэкапа</div>
         </div>
         <div class="btn-arrow">›</div>
       </button>
     </div>
 
-    <!-- ДОКУМЕНТЫ -->
-    <div class="section-title">Документы</div>
+    <!-- 3. ПОСЛЕ ВЫЕЗДА -->
+    <div class="section-title">🛡️ После выезда</div>
     <div class="menu-grid">
-      <button class="menu-btn neutral" onclick="openSection('act')">
+      <button class="menu-btn success" onclick="openSection('wazuh')">
+        <div class="btn-icon">🛡️</div>
+        <div class="btn-info">
+          <div class="btn-title">Wazuh + Sysmon</div>
+          <div class="btn-desc">Установка мониторинга · Проверка</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
+      <button class="menu-btn success" onclick="openSection('act')">
         <div class="btn-icon">📄</div>
         <div class="btn-info">
           <div class="btn-title">Акт для полиции</div>
-          <div class="btn-desc">Заполнить · Скопировать текст</div>
+          <div class="btn-desc">Заполнить форму · Скопировать</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
+    </div>
+
+    <!-- 4. ЧЕКЛИСТЫ -->
+    <div class="section-title">📋 Чеклисты</div>
+    <div class="menu-grid">
+      <button class="menu-btn neutral" onclick="openSection('checklist-before')">
+        <div class="btn-icon">🎒</div>
+        <div class="btn-info">
+          <div class="btn-title">Подготовка к выезду</div>
+          <div class="btn-desc">Что взять · Что проверить до выезда</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
+      <button class="menu-btn neutral" onclick="openSection('checklist-after')">
+        <div class="btn-icon">✅</div>
+        <div class="btn-info">
+          <div class="btn-title">После выезда</div>
+          <div class="btn-desc">Что проверить перед уходом от клиента</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
+    </div>
+
+    <!-- 5. ДОКУМЕНТЫ -->
+    <div class="section-title">📄 Документы</div>
+    <div class="menu-grid">
+      <button class="menu-btn neutral" onclick="openSection('contract')">
+        <div class="btn-icon">📝</div>
+        <div class="btn-info">
+          <div class="btn-title">Договор + NDA</div>
+          <div class="btn-desc">Шаблон · Заполнить · Скопировать</div>
         </div>
         <div class="btn-arrow">›</div>
       </button>
@@ -858,20 +887,28 @@ input  { font-family: inherit; }
         <div class="btn-icon">📓</div>
         <div class="btn-info">
           <div class="btn-title">Журнал кейсов</div>
-          <div class="btn-desc" id="cases-count-desc">Загрузка...</div>
+          <div class="btn-desc" id="cases-count-desc">История выездов</div>
         </div>
         <div class="btn-arrow">›</div>
       </button>
     </div>
 
-    <!-- ИНСТРУМЕНТЫ -->
-    <div class="section-title">Инструменты</div>
+    <!-- 6. ИНСТРУМЕНТЫ -->
+    <div class="section-title">🛠️ Инструменты</div>
     <div class="menu-grid">
       <button class="menu-btn primary" onclick="openSection('flash')">
         <div class="btn-icon">💾</div>
         <div class="btn-info">
-          <div class="btn-title">Руководство по флешке</div>
-          <div class="btn-desc">Autoruns · SystemInformer · Recuva</div>
+          <div class="btn-title">Флешка</div>
+          <div class="btn-desc">Autoruns · SystemInformer · Recuva · Wazuh</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
+      <button class="menu-btn primary" onclick="openSection('ref')">
+        <div class="btn-icon">📚</div>
+        <div class="btn-info">
+          <div class="btn-title">Справочник</div>
+          <div class="btn-desc">IP · Порты · Процессы · Вирусы</div>
         </div>
         <div class="btn-arrow">›</div>
       </button>
@@ -883,15 +920,21 @@ input  { font-family: inherit; }
         </div>
         <div class="btn-arrow">›</div>
       </button>
-      <button class="menu-btn neutral" onclick="openSection('ref')">
-        <div class="btn-icon">📚</div>
+    </div>
+
+    <!-- 7. БИЗНЕС -->
+    <div class="section-title">💰 Бизнес</div>
+    <div class="menu-grid">
+      <button class="menu-btn neutral" onclick="openSection('price')">
+        <div class="btn-icon">💰</div>
         <div class="btn-info">
-          <div class="btn-title">Справочник</div>
-          <div class="btn-desc">IP · Порты · Процессы · Вирусы</div>
+          <div class="btn-title">Прайс</div>
+          <div class="btn-desc">Разовые услуги · Ретейнеры · Скидки</div>
         </div>
         <div class="btn-arrow">›</div>
       </button>
     </div>
+
   </div>
 
   <!-- Нижняя навигация -->
@@ -904,9 +947,9 @@ input  { font-family: inherit; }
       <span class="nav-icon">👥</span>
       <span>Клиенты</span>
     </button>
-    <button class="nav-btn" onclick="openSection('flash')">
-      <span class="nav-icon">💾</span>
-      <span>Флешка</span>
+    <button class="nav-btn" onclick="openSection('ref')">
+      <span class="nav-icon">📚</span>
+      <span>Справочник</span>
     </button>
     <button class="nav-btn" onclick="openSection('price')">
       <span class="nav-icon">💰</span>
@@ -2771,6 +2814,286 @@ cmd /c mklink /d C:\ShadowRestore &quot;$path&quot;">
   </div>
 </div>
 
+<!-- ==================== ЧЕКЛИСТ ДО ВЫЕЗДА ==================== -->
+<div id="screen-checklist-before" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="goBack()" aria-label="Назад">‹</button>
+    <div class="section-header-title">🎒 Подготовка к выезду</div>
+  </header>
+  <div class="section-content">
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="before-progress" style="width:0%"></div>
+    </div>
+    <div class="progress-label" id="before-progress-label">0 / 12 пунктов</div>
+
+    <div class="section-title">Флешки</div>
+    <div class="checklist" id="before-checklist">
+      <div class="check-item" onclick="toggleCheck(this,'before')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Флешка с инструментами</div>
+        <div class="check-hint">Write Protect ON перед выходом</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'before')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Пустая флешка для данных клиента</div>
+        <div class="check-hint">Минимум 32 ГБ — базы 1С бывают большими</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'before')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Проверить что инструменты запускаются</div>
+        <div class="check-hint">Autoruns, SystemInformer, FullEventLogView</div></div>
+      </div>
+    </div>
+
+    <div class="section-title">Документы</div>
+    <div class="checklist" id="before-checklist-2">
+      <div class="check-item" onclick="toggleCheck(this,'before')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Распечатать шаблон акта (2 экземпляра)</div>
+        <div class="check-hint">Один клиенту, один себе</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'before')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Распечатать договор + NDA (2 экземпляра)</div>
+        <div class="check-hint">Подписать до начала работ</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'before')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Визитки — взять несколько</div>
+        <div class="check-hint">Оставить клиенту и его коллегам</div></div>
+      </div>
+    </div>
+
+    <div class="section-title">Техника и связь</div>
+    <div class="checklist" id="before-checklist-3">
+      <div class="check-item" onclick="toggleCheck(this,'before')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Телефон заряжен (минимум 80%)</div>
+        <div class="check-hint">Основной инструмент — PWA, связь, точка доступа</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'before')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Патч-корд сетевой кабель 2-3 метра</div>
+        <div class="check-hint">Прямое подключение к серверу без роутера</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'before')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Мобильный интернет работает</div>
+        <div class="check-hint">Связь со мной на выезде</div></div>
+      </div>
+    </div>
+
+    <div class="section-title">Информация о клиенте</div>
+    <div class="checklist" id="before-checklist-4">
+      <div class="check-item" onclick="toggleCheck(this,'before')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Узнал адрес и как добраться</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'before')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Знаешь имя директора / контактного лица</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'before')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Понял масштаб проблемы по телефону</div>
+        <div class="check-hint">Тип атаки, есть ли бэкап, сколько машин</div></div>
+      </div>
+    </div>
+
+    <button class="action-btn outline" onclick="resetAllBefore()" style="margin-top:8px">🔄 Сбросить всё</button>
+
+  </div>
+</div>
+
+<!-- ==================== ЧЕКЛИСТ ПОСЛЕ ВЫЕЗДА ==================== -->
+<div id="screen-checklist-after" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="goBack()" aria-label="Назад">‹</button>
+    <div class="section-header-title">✅ После выезда</div>
+  </header>
+  <div class="section-content">
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="after-progress" style="width:0%"></div>
+    </div>
+    <div class="progress-label" id="after-progress-label">0 / 14 пунктов</div>
+
+    <div class="alert-card red" style="margin-bottom:16px">
+      <div class="alert-title">⚠️ Не уходи пока не выполнил всё</div>
+      <ul class="alert-list">
+        <li>Потом возвращаться неловко и непрофессионально</li>
+        <li>Клиент должен видеть что всё закрыто</li>
+      </ul>
+    </div>
+
+    <div class="section-title">Безопасность</div>
+    <div class="checklist" id="after-checklist">
+      <div class="check-item" onclick="toggleCheck(this,'after')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Вирус удалён из автозапуска (Autoruns)</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'after')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Вирусный процесс завершён</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'after')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Пароль Administrator сменён на сложный</div>
+        <div class="check-hint">Минимум 16 символов: буквы + цифры + символы</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'after')">
+        <div class="check-box"></div>
+        <div><div class="check-text">RDP порт 3389 закрыт или ограничен</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'after')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Скрытые пользователи удалены</div>
+        <div class="check-hint">Get-LocalUser — проверить нет ли лишних</div></div>
+      </div>
+    </div>
+
+    <div class="section-title">Восстановление</div>
+    <div class="checklist" id="after-checklist-2">
+      <div class="check-item" onclick="toggleCheck(this,'after')">
+        <div class="check-box"></div>
+        <div><div class="check-text">1С открывается и данные на месте</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'after')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Сотрудники могут работать</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'after')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Настроен автоматический бэкап 1С</div>
+        <div class="check-hint">Ежедневно на отдельный носитель</div></div>
+      </div>
+    </div>
+
+    <div class="section-title">Мониторинг</div>
+    <div class="checklist" id="after-checklist-3">
+      <div class="check-item" onclick="toggleCheck(this,'after')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Sysmon установлен и работает</div>
+        <div class="check-hint">Get-Service Sysmon64 → Running</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'after')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Wazuh агент установлен (если есть сервер)</div></div>
+      </div>
+    </div>
+
+    <div class="section-title">Документы и оплата</div>
+    <div class="checklist" id="after-checklist-4">
+      <div class="check-item" onclick="toggleCheck(this,'after')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Акт подписан в двух экземплярах</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'after')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Оплата получена или договорились об оплате</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'after')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Предложил ретейнер — получил ответ</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this,'after')">
+        <div class="check-box"></div>
+        <div><div class="check-text">Оставил визитку директору</div></div>
+      </div>
+    </div>
+
+    <div class="section-title">После возвращения домой</div>
+    <div class="alert-card blue">
+      <ul class="alert-list">
+        <li>Добавить кейс в журнал (📓 Кейсы)</li>
+        <li>Добавить клиента в CRM если ретейнер (👥 Клиенты)</li>
+        <li>Написать пост для канала (анонимно)</li>
+      </ul>
+    </div>
+
+    <button class="action-btn outline" onclick="resetAllAfter()" style="margin-top:8px">🔄 Сбросить всё</button>
+
+  </div>
+</div>
+
+<!-- ==================== ДОГОВОР + NDA ==================== -->
+<div id="screen-contract" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="goBack()" aria-label="Назад">‹</button>
+    <div class="section-header-title">📝 Договор + NDA</div>
+  </header>
+  <div class="section-content">
+
+    <div class="alert-card blue" style="margin-bottom:16px">
+      <div class="alert-title">Заполни и скопируй</div>
+      <ul class="alert-list">
+        <li>Заполни данные клиента</li>
+        <li>Нажми «Сгенерировать» — получи готовый текст</li>
+        <li>Распечатай или отправь на подпись</li>
+      </ul>
+    </div>
+
+    <div class="section-title">Данные клиента</div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+      <div>
+        <label class="login-label" for="c-org">Название организации</label>
+        <input id="c-org" class="login-input" type="text" placeholder="ООО Завод Пример">
+      </div>
+      <div>
+        <label class="login-label" for="c-director">ФИО директора</label>
+        <input id="c-director" class="login-input" type="text" placeholder="Иванов Иван Иванович">
+      </div>
+      <div>
+        <label class="login-label" for="c-address">Адрес организации</label>
+        <input id="c-address" class="login-input" type="text" placeholder="г. Челябинск, ул. Примерная, 1">
+      </div>
+      <div>
+        <label class="login-label" for="c-date">Дата договора</label>
+        <input id="c-date" class="login-input" type="date">
+      </div>
+      <div>
+        <label class="login-label" for="c-service">Вид услуги</label>
+        <select id="c-service" class="login-input">
+          <option value="Реагирование на инцидент ИБ и восстановление данных">Реагирование на инцидент ИБ</option>
+          <option value="Установка системы мониторинга Wazuh">Установка Wazuh мониторинга</option>
+          <option value="Аудит информационной безопасности">Аудит безопасности</option>
+          <option value="Абонентское обслуживание (ретейнер)">Ретейнер (абонентское)</option>
+          <option value="Обучение сотрудников основам ИБ">Обучение сотрудников</option>
+        </select>
+      </div>
+      <div>
+        <label class="login-label" for="c-amount">Стоимость услуг (₽)</label>
+        <input id="c-amount" class="login-input" type="number" placeholder="25000" min="0">
+      </div>
+      <div>
+        <label class="login-label" for="c-deadline">Срок выполнения</label>
+        <input id="c-deadline" class="login-input" type="text" placeholder="1 рабочий день / до 28.06.2026">
+      </div>
+    </div>
+
+    <button class="action-btn blue" onclick="generateContract()">
+      📝 Сгенерировать договор
+    </button>
+
+    <div id="contract-result" class="hidden" style="margin-top:16px">
+      <div class="section-title">Готовый договор</div>
+      <div id="contract-text" style="
+        background:var(--bg2);border:1px solid var(--border);
+        border-radius:var(--radius-sm);padding:14px;
+        font-size:11px;line-height:1.7;color:var(--text);
+        white-space:pre-wrap;word-break:break-word;
+        max-height:350px;overflow-y:auto;margin-bottom:10px;
+        font-family:'Courier New',monospace;
+      "></div>
+      <button class="action-btn green" onclick="copyContractText()">
+        📋 Скопировать договор
+      </button>
+    </div>
+
+  </div>
+</div>
+
 <!-- ==================== ЭКРАН РАЗДЕЛА (заглушка) ==================== -->
 <div id="screen-section" class="hidden">
   <header class="section-header">
@@ -3001,7 +3324,7 @@ document.getElementById('pass-input').addEventListener('keydown', e => {
 // ==============================
 // НАВИГАЦИЯ
 // ==============================
-const SCREENS = ['loading','login','main','section','call','analysis','shadow','1c','wazuh','act','cases','price','settings','flash','crm','ref'];
+const SCREENS = ['loading','login','main','section','call','analysis','shadow','1c','wazuh','act','cases','price','settings','flash','crm','ref','checklist-before','checklist-after','contract'];
 let currentScreen = 'loading';
 let prevScreen = null;
 
@@ -3041,7 +3364,10 @@ function openSection(id) {
   if (id === 'settings') { initSettings(); showScreen('settings'); return; }
   if (id === 'flash')    { showScreen('flash');    return; }
   if (id === 'crm')      { showScreen('crm'); loadClients(); return; }
-  if (id === 'ref')      { showScreen('ref');      return; }
+  if (id === 'ref')              { showScreen('ref');              return; }
+  if (id === 'checklist-before') { showScreen('checklist-before'); return; }
+  if (id === 'checklist-after')  { showScreen('checklist-after');  return; }
+  if (id === 'contract')         { initContract(); showScreen('contract'); return; }
 
   const s = SECTIONS[id];
   if (!s) return;
@@ -3053,7 +3379,7 @@ function openSection(id) {
 }
 
 function goBack() {
-  const mainScreens = ['call','analysis','shadow','1c','wazuh','act','cases','price','settings','flash','crm','ref','section'];
+  const mainScreens = ['call','analysis','shadow','1c','wazuh','act','cases','price','settings','flash','crm','ref','checklist-before','checklist-after','contract','section'];
   if (mainScreens.includes(currentScreen)) {
     showScreen('main');
   } else if (prevScreen && prevScreen !== currentScreen) {
@@ -3065,7 +3391,7 @@ function goBack() {
 
 window.addEventListener('popstate', e => {
   e.preventDefault();
-  if (['call','analysis','shadow','1c','wazuh','act','cases','price','settings','flash','crm','ref','section'].includes(currentScreen)) {
+  if (['call','analysis','shadow','1c','wazuh','act','cases','price','settings','flash','crm','ref','checklist-before','checklist-after','contract','section'].includes(currentScreen)) {
     goBack();
     history.pushState(null, '', location.href);
   }
@@ -3199,8 +3525,187 @@ async function saveCase() {
 }
 
 // ==============================
-// ЭТАП 6Б — CRM КЛИЕНТОВ
+// ЧЕКЛИСТЫ ДО/ПОСЛЕ ВЫЕЗДА
 // ==============================
+function resetAllBefore() {
+  ['before-checklist','before-checklist-2','before-checklist-3','before-checklist-4'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.querySelectorAll('.check-item').forEach(item => {
+      item.classList.remove('done');
+      item.querySelector('.check-box').textContent = '';
+    });
+  });
+  const bar = document.getElementById('before-progress');
+  const lbl = document.getElementById('before-progress-label');
+  if (bar) bar.style.width = '0%';
+  if (lbl) lbl.textContent = '0 / 12 пунктов';
+  showToast('Чеклист сброшен');
+}
+
+function resetAllAfter() {
+  ['after-checklist','after-checklist-2','after-checklist-3','after-checklist-4'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.querySelectorAll('.check-item').forEach(item => {
+      item.classList.remove('done');
+      item.querySelector('.check-box').textContent = '';
+    });
+  });
+  const bar = document.getElementById('after-progress');
+  const lbl = document.getElementById('after-progress-label');
+  if (bar) bar.style.width = '0%';
+  if (lbl) lbl.textContent = '0 / 14 пунктов';
+  showToast('Чеклист сброшен');
+}
+
+// Переопределяем toggleCheck чтобы учитывать составные чеклисты
+const _origToggleCheck = toggleCheck;
+function toggleCheck(el, listId) {
+  el.classList.toggle('done');
+  el.querySelector('.check-box').textContent = el.classList.contains('done') ? '✓' : '';
+
+  // Для составных чеклистов
+  const compositeMap = {
+    'before': { ids: ['before-checklist','before-checklist-2','before-checklist-3','before-checklist-4'], total: 12, bar: 'before-progress', lbl: 'before-progress-label' },
+    'after':  { ids: ['after-checklist','after-checklist-2','after-checklist-3','after-checklist-4'],  total: 14, bar: 'after-progress',  lbl: 'after-progress-label'  },
+  };
+
+  if (compositeMap[listId]) {
+    const cfg = compositeMap[listId];
+    let done = 0;
+    cfg.ids.forEach(id => {
+      const l = document.getElementById(id);
+      if (l) done += l.querySelectorAll('.check-item.done').length;
+    });
+    const pct = Math.round(done / cfg.total * 100);
+    const bar = document.getElementById(cfg.bar);
+    const lbl = document.getElementById(cfg.lbl);
+    if (bar) bar.style.width = pct + '%';
+    if (lbl) lbl.textContent = done + ' / ' + cfg.total + ' пунктов';
+  } else {
+    updateProgress(listId);
+  }
+}
+
+// ==============================
+// ДОГОВОР + NDA
+// ==============================
+function initContract() {
+  const d = document.getElementById('c-date');
+  if (d && !d.value) d.value = new Date().toISOString().split('T')[0];
+}
+
+function generateContract() {
+  const get = id => (document.getElementById(id)?.value || '').trim();
+  const org      = get('c-org')      || '[название организации]';
+  const director = get('c-director') || '[ФИО директора]';
+  const address  = get('c-address')  || '[адрес]';
+  const date     = get('c-date')     || new Date().toLocaleDateString('ru-RU');
+  const service  = get('c-service')  || '[вид услуги]';
+  const amount   = get('c-amount')   ? parseInt(get('c-amount')).toLocaleString('ru-RU') + ' ₽' : '[сумма]';
+  const deadline = get('c-deadline') || '[срок]';
+  const dateStr  = date ? new Date(date).toLocaleDateString('ru-RU') : new Date().toLocaleDateString('ru-RU');
+
+  const text = `ДОГОВОР НА ОКАЗАНИЕ УСЛУГ В ОБЛАСТИ
+ИНФОРМАЦИОННОЙ БЕЗОПАСНОСТИ № ____
+
+г. Челябинск                              «${dateStr}»
+
+ИСПОЛНИТЕЛЬ: Низамов Даниил Алексеевич
+ИНН: _____________, Тел: +7 991 174-51-13
+nizamov-tech.ru
+
+ЗАКАЗЧИК: ${org}
+в лице ${director}
+Адрес: ${address}
+
+═══════════════════════════════════════
+
+1. ПРЕДМЕТ ДОГОВОРА
+
+1.1. Исполнитель обязуется оказать услугу:
+     «${service}»
+
+1.2. Срок выполнения: ${deadline}
+
+1.3. Стоимость услуг: ${amount}
+
+═══════════════════════════════════════
+
+2. ПРАВА И ОБЯЗАННОСТИ СТОРОН
+
+2.1. Исполнитель обязуется:
+- Оказать услуги качественно и в срок
+- Не разглашать конфиденциальную информацию
+- Сообщать о невозможности выполнения работ
+
+2.2. Заказчик обязуется:
+- Предоставить необходимый доступ к системам
+- Оплатить услуги в установленный срок
+- Не привлекать третьих лиц без согласования
+
+═══════════════════════════════════════
+
+3. КОНФИДЕНЦИАЛЬНОСТЬ (NDA)
+
+3.1. Исполнитель обязуется хранить в тайне
+всю информацию полученную в ходе работ:
+пароли, данные, структуру сети, уязвимости.
+
+3.2. Обязательство действует бессрочно.
+
+3.3. Исполнитель вправе упомянуть факт
+сотрудничества без раскрытия деталей.
+
+═══════════════════════════════════════
+
+4. ОГРАНИЧЕНИЕ ОТВЕТСТВЕННОСТИ
+
+4.1. Исполнитель не несёт ответственности
+за невозможность восстановления данных
+при отсутствии резервных копий.
+
+4.2. Исполнитель не гарантирует полную
+защиту от будущих кибератак.
+
+4.3. Ответственность ограничена стоимостью
+оказанных услуг по настоящему договору.
+
+═══════════════════════════════════════
+
+5. ОПЛАТА
+
+5.1. Стоимость: ${amount}
+5.2. Оплата: по факту оказания услуг
+5.3. Форма: наличные / перевод на карту
+
+═══════════════════════════════════════
+
+ПОДПИСИ СТОРОН:
+
+Исполнитель:                 Заказчик:
+Низамов Д.А.                ${director}
+
+_____________ /Низамов/      _____________ /__________/
+
+Дата: «${dateStr}»           Дата: «${dateStr}»`;
+
+  document.getElementById('contract-text').textContent = text;
+  document.getElementById('contract-result').classList.remove('hidden');
+  document.getElementById('contract-result').scrollIntoView({ behavior: 'smooth' });
+}
+
+async function copyContractText() {
+  const text = document.getElementById('contract-text')?.textContent;
+  if (!text) return;
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('✓ Договор скопирован');
+  } catch {
+    showToast('Не удалось скопировать');
+  }
+}
 const CLIENTS_KEY = 'ir_clients';
 
 function loadClients() {
