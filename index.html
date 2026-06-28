@@ -1154,7 +1154,7 @@ input  { font-family: inherit; }
       </ul>
     </div>
 
-    <button class="copy-btn" onclick="copyText(this, 'Get-ChildItem -Path C:\\ -Recurse -ErrorAction SilentlyContinue | Where-Object {$_.Extension -notmatch \"^(\\.(exe|dll|sys|ini|lnk|url|ico))$\" -and $_.LastWriteTime -gt (Get-Date).AddDays(-3)} | Select-Object FullName,LastWriteTime,Length | Export-Csv C:\\evidence_files.csv -Encoding UTF8 -NoTypeInformation')">
+    <button class="copy-btn" onclick="copyData(this)" data-copy="Get-ChildItem -Path C:\ -Recurse -ErrorAction SilentlyContinue | Where-Object {$_.Extension -notmatch '^(\.(exe|dll|sys|ini|lnk|url|ico))$' -and $_.LastWriteTime -gt (Get-Date).AddDays(-3)} | Select-Object FullName,LastWriteTime,Length | Export-Csv C:\evidence_files.csv -Encoding UTF8 -NoTypeInformation">
       <div class="copy-icon">📁</div>
       <div class="copy-info">
         <div class="copy-title">Список зашифрованных файлов → CSV</div>
@@ -1168,6 +1168,233 @@ input  { font-family: inherit; }
       <div class="copy-info">
         <div class="copy-title">Экспорт журнала событий</div>
         <div class="copy-code">wevtutil epl Security C:\evidence_security.evtx</div>
+      </div>
+      <div class="copy-badge">✓</div>
+    </button>
+
+  </div>
+</div>
+
+<!-- ==================== ЭКРАН ТЕНЕВЫЕ КОПИИ ==================== -->
+<div id="screen-shadow" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="goBack()" aria-label="Назад">‹</button>
+    <div class="section-header-title">💾 Теневые копии</div>
+  </header>
+  <div class="section-content">
+
+    <div class="alert-card yellow" style="margin-bottom:16px">
+      <div class="alert-title">⚡ Проверить до восстановления</div>
+      <ul class="alert-list">
+        <li>Теневые копии — первый шанс восстановить без бэкапа</li>
+        <li>Взломщики удаляют их — но не всегда успевают</li>
+      </ul>
+    </div>
+
+    <div class="section-title">Шаг 1 — Найти копии</div>
+    <button class="copy-btn" onclick="copyData(this)" data-copy="vssadmin list shadows">
+      <div class="copy-icon">🔍</div>
+      <div class="copy-info">
+        <div class="copy-title">Найти теневые копии</div>
+        <div class="copy-code">vssadmin list shadows</div>
+      </div>
+      <div class="copy-badge">✓</div>
+    </button>
+
+    <div class="alert-card green" style="margin-bottom:16px">
+      <div class="alert-title">✅ Если копии есть</div>
+      <ul class="alert-list">
+        <li>Видишь даты — проверь есть ли копия ДО атаки</li>
+        <li>Дата атаки = когда компьютеры начали тормозить</li>
+        <li>Нужна копия старше этой даты</li>
+      </ul>
+    </div>
+
+    <div class="alert-card red" style="margin-bottom:16px">
+      <div class="alert-title">❌ Взломщики удаляют этой командой</div>
+      <ul class="alert-list">
+        <li>vssadmin delete shadows /all /quiet</li>
+        <li>Если видишь в логах — копий нет, идём к бэкапу</li>
+      </ul>
+    </div>
+
+    <div class="section-title">Шаг 2 — Подключить как папку</div>
+    <button class="copy-btn" onclick="copyData(this)" data-copy="$shadow = (Get-WmiObject Win32_ShadowCopy | Sort-Object InstallDate | Select-Object -Last 1)
+$path = $shadow.DeviceObject + '\'
+cmd /c mklink /d C:\ShadowRestore &quot;$path&quot;">
+      <div class="copy-icon">📂</div>
+      <div class="copy-info">
+        <div class="copy-title">Подключить последнюю копию</div>
+        <div class="copy-code">mklink /d C:\ShadowRestore → папка с файлами до шифрования</div>
+      </div>
+      <div class="copy-badge">✓</div>
+    </button>
+
+    <div class="alert-card blue" style="margin-bottom:16px">
+      <div class="alert-title">После подключения</div>
+      <ul class="alert-list">
+        <li>C:\ShadowRestore — вся система на момент копии</li>
+        <li>Найди нужные файлы и скопируй</li>
+        <li>Путь к 1С базе смотри ниже</li>
+      </ul>
+    </div>
+
+    <div class="section-title">Где искать 1С базу</div>
+    <button class="copy-btn" onclick="copyData(this)" data-copy="C:\ShadowRestore\Users\user\AppData\Roaming\1C\1Cv8\">
+      <div class="copy-icon">🏥</div>
+      <div class="copy-info">
+        <div class="copy-title">Путь к файловой базе 1С</div>
+        <div class="copy-code">C:\ShadowRestore\Users\[имя]\AppData\Roaming\1C\1Cv8\</div>
+      </div>
+      <div class="copy-badge">✓</div>
+    </button>
+    <button class="copy-btn" onclick="copyData(this)" data-copy="dir C:\ShadowRestore\ /b">
+      <div class="copy-icon">📋</div>
+      <div class="copy-info">
+        <div class="copy-title">Показать содержимое теневой копии</div>
+        <div class="copy-code">dir C:\ShadowRestore\ /b</div>
+      </div>
+      <div class="copy-badge">✓</div>
+    </button>
+
+    <div class="section-title">Шаг 3 — Удалить ссылку после работы</div>
+    <button class="copy-btn" onclick="copyData(this)" data-copy="rmdir C:\ShadowRestore">
+      <div class="copy-icon">🗑️</div>
+      <div class="copy-info">
+        <div class="copy-title">Удалить ссылку на теневую копию</div>
+        <div class="copy-code">rmdir C:\ShadowRestore</div>
+      </div>
+      <div class="copy-badge">✓</div>
+    </button>
+
+  </div>
+</div>
+
+<!-- ==================== ЭКРАН ВОССТАНОВЛЕНИЕ 1С ==================== -->
+<div id="screen-1c" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="goBack()" aria-label="Назад">‹</button>
+    <div class="section-header-title">🏥 Восстановление 1С</div>
+  </header>
+  <div class="section-content">
+
+    <!-- Прогресс чеклист восстановления -->
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="restore-progress" style="width:0%"></div>
+    </div>
+    <div class="progress-label" id="restore-progress-label">0 / 6 шагов</div>
+
+    <div class="section-title">Сначала проверь</div>
+    <div class="checklist" id="restore-checklist">
+      <div class="check-item" onclick="toggleCheck(this, 'restore')">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Вирус убит и удалён из автозапуска</div>
+          <div class="check-hint">Иначе восстановишь — снова зашифрует</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this, 'restore')">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Дыра закрыта (RDP, пароль, порт)</div>
+          <div class="check-hint">Заменить пароль Admin на сложный, закрыть порт 3389</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this, 'restore')">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Флешка с бэкапом найдена и в кармане</div>
+          <div class="check-hint">Не подключать к заражённой машине</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this, 'restore')">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Определён тип базы 1С (файловая или серверная)</div>
+          <div class="check-hint">Файловая = файл 1Cv8.1CD / Серверная = SQL</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this, 'restore')">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Найден файл резервной копии (.dt)</div>
+          <div class="check-hint">Обычно называется: backup_дата.dt</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this, 'restore')">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Доказательства собраны (CSV, evtx, скриншоты)</div>
+          <div class="check-hint">До восстановления — потом часть следов исчезнет</div>
+        </div>
+      </div>
+    </div>
+    <button class="action-btn outline" onclick="resetChecklist('restore')" style="margin-bottom:20px">🔄 Сбросить</button>
+
+    <div class="section-title">Восстановление из .dt файла</div>
+    <div class="alert-card blue" style="margin-bottom:12px">
+      <div class="alert-title">Пошагово</div>
+      <ul class="alert-list">
+        <li>1. Запустить 1С → выбрать базу → кнопка Конфигуратор</li>
+        <li>2. Меню Администрирование → Загрузить информационную базу</li>
+        <li>3. Выбрать файл .dt с флешки</li>
+        <li>4. Подождать 10–30 минут</li>
+        <li>5. Перезапустить 1С в обычном режиме</li>
+        <li>6. Проверить что данные на месте</li>
+      </ul>
+    </div>
+
+    <div class="section-title">Где искать .dt файл</div>
+    <button class="copy-btn" onclick="copyData(this)" data-copy="dir C:\ /s /b | findstr .dt">
+      <div class="copy-icon">🔍</div>
+      <div class="copy-info">
+        <div class="copy-title">Найти все .dt файлы на диске</div>
+        <div class="copy-code">dir C:\ /s /b | findstr .dt</div>
+      </div>
+      <div class="copy-badge">✓</div>
+    </button>
+    <button class="copy-btn" onclick="copyData(this)" data-copy="dir C:\ShadowRestore\ /s /b | findstr .dt">
+      <div class="copy-icon">💾</div>
+      <div class="copy-info">
+        <div class="copy-title">Искать .dt в теневой копии</div>
+        <div class="copy-code">dir C:\ShadowRestore\ /s /b | findstr .dt</div>
+      </div>
+      <div class="copy-badge">✓</div>
+    </button>
+
+    <div class="section-title" style="margin-top:4px">Если .dt нет — проверяем</div>
+    <div class="alert-card yellow" style="margin-bottom:10px">
+      <div class="alert-title">Алгоритм если бэкапа нет</div>
+      <ul class="alert-list">
+        <li>1. id-ransomware.malwarehunterteam.com — определить вирус</li>
+        <li>2. nomoreransom.org — бесплатный дешифратор</li>
+        <li>3. vssadmin list shadows — теневые копии</li>
+        <li>4. Recuva с флешки — восстановление удалённых файлов</li>
+        <li>5. R.saver / Dr.Web — платные лаборатории</li>
+      </ul>
+    </div>
+
+    <a href="https://id-ransomware.malwarehunterteam.com" target="_blank" class="action-btn blue" style="text-decoration:none;display:flex">
+      🔍 Определить шифровальщик
+    </a>
+    <a href="https://www.nomoreransom.org/ru/index.html" target="_blank" class="action-btn green" style="text-decoration:none;display:flex;margin-top:0">
+      🔓 Бесплатный дешифратор
+    </a>
+
+    <div class="section-title" style="margin-top:16px">Закрыть дыру после восстановления</div>
+    <button class="copy-btn" onclick="copyData(this)" data-copy="net user Administrator NewStr0ngP@ss2026! /passwordreq:yes">
+      <div class="copy-icon">🔐</div>
+      <div class="copy-info">
+        <div class="copy-title">Сменить пароль Administrator</div>
+        <div class="copy-code">net user Administrator [новый_пароль]</div>
+      </div>
+      <div class="copy-badge">✓</div>
+    </button>
+    <button class="copy-btn" onclick="copyData(this)" data-copy="netsh advfirewall firewall add rule name=&quot;Block RDP&quot; protocol=TCP dir=in localport=3389 action=block">
+      <div class="copy-icon">🛡️</div>
+      <div class="copy-info">
+        <div class="copy-title">Заблокировать RDP порт 3389</div>
+        <div class="copy-code">netsh advfirewall → Block RDP port 3389</div>
       </div>
       <div class="copy-badge">✓</div>
     </button>
@@ -1405,7 +1632,7 @@ document.getElementById('pass-input').addEventListener('keydown', e => {
 // ==============================
 // НАВИГАЦИЯ
 // ==============================
-const SCREENS = ['loading', 'login', 'main', 'section', 'call', 'analysis'];
+const SCREENS = ['loading', 'login', 'main', 'section', 'call', 'analysis', 'shadow', '1c'];
 let currentScreen = 'loading';
 let prevScreen = null;
 
@@ -1434,11 +1661,11 @@ const SECTIONS = {
 };
 
 function openSection(id) {
-  // Этап 2 — реальные экраны
-  if (id === 'call') { showScreen('call'); return; }
+  if (id === 'call')     { showScreen('call');     return; }
   if (id === 'analysis') { showScreen('analysis'); return; }
+  if (id === 'shadow')   { showScreen('shadow');   return; }
+  if (id === '1c')       { showScreen('1c');       return; }
 
-  // Остальные — заглушки
   const s = SECTIONS[id];
   if (!s) return;
   document.getElementById('section-title').textContent        = s.title;
@@ -1449,7 +1676,7 @@ function openSection(id) {
 }
 
 function goBack() {
-  const mainScreens = ['call', 'analysis', 'section'];
+  const mainScreens = ['call', 'analysis', 'shadow', '1c', 'section'];
   if (mainScreens.includes(currentScreen)) {
     showScreen('main');
   } else if (prevScreen && prevScreen !== currentScreen) {
@@ -1462,7 +1689,7 @@ function goBack() {
 // Android back button
 window.addEventListener('popstate', e => {
   e.preventDefault();
-  if (['call', 'analysis', 'section'].includes(currentScreen)) {
+  if (['call', 'analysis', 'shadow', '1c', 'section'].includes(currentScreen)) {
     goBack();
     history.pushState(null, '', location.href);
   }
@@ -1521,6 +1748,12 @@ async function copyText(btn, text) {
       console.warn('Copy error:', e2.message);
     }
   }
+}
+
+// Копирование через data-copy атрибут (для сложных команд)
+function copyData(btn) {
+  const text = btn.getAttribute('data-copy');
+  if (text) copyText(btn, text);
 }
 
 // ==============================
