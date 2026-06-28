@@ -867,13 +867,17 @@ input  { font-family: inherit; }
 
   <!-- Нижняя навигация -->
   <nav class="bottom-nav">
-    <button class="nav-btn active">
+    <button class="nav-btn active" onclick="showScreen('main')">
       <span class="nav-icon">🏠</span>
       <span>Главная</span>
     </button>
     <button class="nav-btn" onclick="openSection('cases')">
       <span class="nav-icon">📓</span>
       <span>Кейсы</span>
+    </button>
+    <button class="nav-btn" onclick="openSection('price')">
+      <span class="nav-icon">💰</span>
+      <span>Прайс</span>
     </button>
     <button class="nav-btn" onclick="openSection('settings')">
       <span class="nav-icon">⚙️</span>
@@ -1606,6 +1610,272 @@ cmd /c mklink /d C:\ShadowRestore &quot;$path&quot;">
   </div>
 </div>
 
+<!-- ==================== ЭКРАН ЖУРНАЛ КЕЙСОВ ==================== -->
+<div id="screen-cases" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="goBack()" aria-label="Назад">‹</button>
+    <div class="section-header-title">📓 Журнал кейсов</div>
+    <button class="icon-btn" onclick="showAddCase()" aria-label="Добавить" style="margin-left:auto">➕</button>
+  </header>
+  <div class="section-content">
+
+    <!-- Статистика -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center">
+        <div style="font-size:28px;font-weight:800;color:var(--blue)" id="stat-total">—</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px">Всего кейсов</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center">
+        <div style="font-size:22px;font-weight:800;color:var(--green)" id="stat-income">—</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px">Общий доход</div>
+      </div>
+    </div>
+
+    <!-- Форма добавления -->
+    <div id="add-case-form" class="hidden" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px">
+      <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px">➕ Новый кейс</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div>
+          <label class="login-label" for="case-date">Дата</label>
+          <input id="case-date" class="login-input" type="date">
+        </div>
+        <div>
+          <label class="login-label" for="case-type">Тип клиента</label>
+          <select id="case-type" class="login-input">
+            <option value="Малый бизнес">Малый бизнес</option>
+            <option value="Средний бизнес">Средний бизнес</option>
+            <option value="Завод">Завод</option>
+            <option value="Университет">Университет</option>
+            <option value="Бюджетная организация">Бюджетная организация</option>
+            <option value="ИП">ИП</option>
+          </select>
+        </div>
+        <div>
+          <label class="login-label" for="case-attack">Тип атаки</label>
+          <select id="case-attack" class="login-input">
+            <option value="Ransomware">Ransomware</option>
+            <option value="Взлом RDP">Взлом RDP</option>
+            <option value="Фишинг">Фишинг</option>
+            <option value="Утечка данных">Утечка данных</option>
+            <option value="Дефейс сайта">Дефейс сайта</option>
+            <option value="Профилактика">Профилактика</option>
+            <option value="Иное">Иное</option>
+          </select>
+        </div>
+        <div>
+          <label class="login-label" for="case-result">Результат</label>
+          <select id="case-result" class="login-input">
+            <option value="Восстановлено полностью">Восстановлено полностью</option>
+            <option value="Восстановлено частично">Восстановлено частично</option>
+            <option value="Не восстановлено">Не восстановлено</option>
+            <option value="Профилактика выполнена">Профилактика выполнена</option>
+          </select>
+        </div>
+        <div>
+          <label class="login-label" for="case-amount">Сумма (₽)</label>
+          <input id="case-amount" class="login-input" type="number" placeholder="25000" min="0">
+        </div>
+        <div>
+          <label class="login-label" for="case-notes">Заметки (анонимно)</label>
+          <input id="case-notes" class="login-input" type="text" placeholder="Ransomware LockBit, восстановили из .dt">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px">
+          <button class="action-btn outline" onclick="hideAddCase()">Отмена</button>
+          <button class="action-btn blue" onclick="saveCase()">
+            <span id="save-case-text">Сохранить</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Список кейсов -->
+    <div id="cases-list">
+      <div style="text-align:center;padding:40px 20px;color:var(--text3)">
+        <div style="font-size:40px;margin-bottom:8px">📓</div>
+        <div style="font-size:14px">Загрузка кейсов...</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== ЭКРАН ПРАЙС ==================== -->
+<div id="screen-price" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="goBack()" aria-label="Назад">‹</button>
+    <div class="section-header-title">💰 Прайс</div>
+  </header>
+  <div class="section-content">
+
+    <div class="section-title">Разовые услуги</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+      <div class="copy-btn" style="cursor:default">
+        <div class="copy-icon">🚨</div>
+        <div class="copy-info">
+          <div class="copy-title">Экстренный выезд + восстановление</div>
+          <div class="copy-code">20 000 – 35 000 ₽</div>
+        </div>
+      </div>
+      <div class="copy-btn" style="cursor:default">
+        <div class="copy-icon">🏥</div>
+        <div class="copy-info">
+          <div class="copy-title">Восстановление 1С (есть бэкап)</div>
+          <div class="copy-code">8 000 – 15 000 ₽</div>
+        </div>
+      </div>
+      <div class="copy-btn" style="cursor:default">
+        <div class="copy-icon">🛡️</div>
+        <div class="copy-info">
+          <div class="copy-title">Установка Wazuh + Sysmon</div>
+          <div class="copy-code">10 000 – 15 000 ₽</div>
+        </div>
+      </div>
+      <div class="copy-btn" style="cursor:default">
+        <div class="copy-icon">🔍</div>
+        <div class="copy-info">
+          <div class="copy-title">Аудит безопасности</div>
+          <div class="copy-code">15 000 – 30 000 ₽</div>
+        </div>
+      </div>
+      <div class="copy-btn" style="cursor:default">
+        <div class="copy-icon">📄</div>
+        <div class="copy-info">
+          <div class="copy-title">Акт для полиции + уведомление РКН</div>
+          <div class="copy-code">5 000 – 10 000 ₽</div>
+        </div>
+      </div>
+      <div class="copy-btn" style="cursor:default">
+        <div class="copy-icon">💾</div>
+        <div class="copy-info">
+          <div class="copy-title">Настройка автобэкапа 1С</div>
+          <div class="copy-code">5 000 – 8 000 ₽</div>
+        </div>
+      </div>
+      <div class="copy-btn" style="cursor:default">
+        <div class="copy-icon">👨‍🏫</div>
+        <div class="copy-info">
+          <div class="copy-title">Обучение сотрудников (1 час)</div>
+          <div class="copy-code">5 000 – 10 000 ₽</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Ретейнеры (ежемесячно)</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+      <div style="background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius);padding:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="font-size:15px;font-weight:700;color:var(--text)">Базовый</div>
+          <div style="font-size:17px;font-weight:800;color:var(--blue)">5 000 ₽/мес</div>
+        </div>
+        <ul class="alert-list" style="color:var(--text2)">
+          <li>Мониторинг Wazuh 24/7</li>
+          <li>Алерты тебе в телефон</li>
+          <li>Консультация до 30 мин</li>
+          <li>Скидка 40% на выезд</li>
+        </ul>
+      </div>
+      <div style="background:var(--bg2);border:2px solid var(--blue);border-radius:var(--radius);padding:16px;position:relative">
+        <div style="position:absolute;top:-10px;left:16px;background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:2px 10px;border-radius:99px;letter-spacing:1px">ПОПУЛЯРНЫЙ</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="font-size:15px;font-weight:700;color:var(--text)">Стандарт</div>
+          <div style="font-size:17px;font-weight:800;color:var(--blue)">10 000 ₽/мес</div>
+        </div>
+        <ul class="alert-list" style="color:var(--text2)">
+          <li>Всё из базового</li>
+          <li>Плановый выезд раз в месяц</li>
+          <li>Проверка бэкапов</li>
+          <li>Скидка 50% на экстренный выезд</li>
+        </ul>
+      </div>
+      <div style="background:var(--bg2);border:2px solid var(--green);border-radius:var(--radius);padding:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="font-size:15px;font-weight:700;color:var(--text)">Премиум</div>
+          <div style="font-size:17px;font-weight:800;color:var(--green)">20 000 ₽/мес</div>
+        </div>
+        <ul class="alert-list" style="color:var(--text2)">
+          <li>Всё из стандарта</li>
+          <li>Один экстренный выезд включён</li>
+          <li>Восстановление включено</li>
+          <li>Реакция 1 час</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert-card blue">
+      <div class="alert-title">Скидки для ретейнер-клиентов</div>
+      <ul class="alert-list">
+        <li>Базовый → выезд 15 000 вместо 25 000</li>
+        <li>Стандарт → выезд 12 500 вместо 25 000</li>
+        <li>Премиум → выезд включён</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== ЭКРАН НАСТРОЙКИ ==================== -->
+<div id="screen-settings" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="goBack()" aria-label="Назад">‹</button>
+    <div class="section-header-title">⚙️ Настройки</div>
+  </header>
+  <div class="section-content">
+
+    <div class="section-title">Безопасность</div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px">
+      <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px">Сменить пароль</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div>
+          <label class="login-label" for="old-pass">Текущий пароль</label>
+          <input id="old-pass" class="login-input" type="password" placeholder="Текущий пароль">
+        </div>
+        <div>
+          <label class="login-label" for="new-pass">Новый пароль</label>
+          <input id="new-pass" class="login-input" type="password" placeholder="Минимум 8 символов">
+        </div>
+        <div>
+          <label class="login-label" for="new-pass2">Повторите новый пароль</label>
+          <input id="new-pass2" class="login-input" type="password" placeholder="Повторите пароль">
+        </div>
+        <div id="pass-change-error" style="font-size:13px;color:var(--red);min-height:18px"></div>
+        <button class="action-btn blue" onclick="changePassword()">Сменить пароль</button>
+      </div>
+    </div>
+
+    <div class="section-title">Приложение</div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:14px;color:var(--text)">Версия</div>
+          <div style="font-size:14px;color:var(--text3);font-weight:600" id="app-version-text">1.0.0</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:14px;color:var(--text)">Тема</div>
+          <button onclick="toggleTheme()" style="font-size:13px;color:var(--blue);font-weight:600;background:none;border:none;cursor:pointer" id="theme-label">Светлая</button>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:14px;color:var(--text)">Supabase</div>
+          <div style="font-size:12px;color:var(--text3)" id="supabase-status">Проверка...</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Контакт</div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px">
+      <div style="font-size:13px;color:var(--text2);line-height:1.6">
+        Даниил Низамов · Nizamov.tech<br>
+        Telegram: @daniil74_bot<br>
+        Телефон: +7 991 174-51-13
+      </div>
+    </div>
+
+    <button class="action-btn outline" onclick="doLogout()" style="color:var(--red);border-color:var(--red)">
+      🚪 Выйти из IR Guide
+    </button>
+
+  </div>
+</div>
+
 <!-- ==================== ЭКРАН РАЗДЕЛА (заглушка) ==================== -->
 <div id="screen-section" class="hidden">
   <header class="section-header">
@@ -1836,7 +2106,7 @@ document.getElementById('pass-input').addEventListener('keydown', e => {
 // ==============================
 // НАВИГАЦИЯ
 // ==============================
-const SCREENS = ['loading', 'login', 'main', 'section', 'call', 'analysis', 'shadow', '1c', 'wazuh', 'act'];
+const SCREENS = ['loading','login','main','section','call','analysis','shadow','1c','wazuh','act','cases','price','settings'];
 let currentScreen = 'loading';
 let prevScreen = null;
 
@@ -1871,6 +2141,9 @@ function openSection(id) {
   if (id === '1c')       { showScreen('1c');       return; }
   if (id === 'wazuh')    { showScreen('wazuh');    return; }
   if (id === 'act')      { initActForm(); showScreen('act'); return; }
+  if (id === 'cases')    { showScreen('cases'); loadCases(); return; }
+  if (id === 'price')    { showScreen('price');    return; }
+  if (id === 'settings') { initSettings(); showScreen('settings'); return; }
 
   const s = SECTIONS[id];
   if (!s) return;
@@ -1882,7 +2155,7 @@ function openSection(id) {
 }
 
 function goBack() {
-  const mainScreens = ['call','analysis','shadow','1c','wazuh','act','section'];
+  const mainScreens = ['call','analysis','shadow','1c','wazuh','act','cases','price','settings','section'];
   if (mainScreens.includes(currentScreen)) {
     showScreen('main');
   } else if (prevScreen && prevScreen !== currentScreen) {
@@ -1892,15 +2165,212 @@ function goBack() {
   }
 }
 
-// Android back button
 window.addEventListener('popstate', e => {
   e.preventDefault();
-  if (['call','analysis','shadow','1c','wazuh','act','section'].includes(currentScreen)) {
+  if (['call','analysis','shadow','1c','wazuh','act','cases','price','settings','section'].includes(currentScreen)) {
     goBack();
     history.pushState(null, '', location.href);
   }
 });
 history.pushState(null, '', location.href);
+
+// ==============================
+// ЭТАП 5 — ЖУРНАЛ КЕЙСОВ
+// ==============================
+let casesCache = [];
+
+async function loadCases() {
+  const el = document.getElementById('cases-list');
+  if (!el) return;
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/ir_cases?select=*&order=date.desc`,
+      { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
+    );
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    casesCache = await res.json();
+    renderCases(casesCache);
+    updateStats(casesCache);
+    // Обновляем счётчик на главном экране
+    const desc = document.getElementById('cases-count-desc');
+    if (desc) desc.textContent = casesCache.length + ' кейс' + getEnding(casesCache.length) + ' · История выездов';
+  } catch(e) {
+    console.warn('Load cases error:', e.message);
+    el.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text3)"><div style="font-size:32px">⚠️</div><div style="font-size:13px;margin-top:8px">Нет подключения · данные недоступны</div></div>';
+  }
+}
+
+function renderCases(cases) {
+  const el = document.getElementById('cases-list');
+  if (!el) return;
+  if (!cases.length) {
+    el.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text3)"><div style="font-size:40px">📓</div><div style="font-size:14px;margin-top:8px">Кейсов пока нет<br>Нажмите ➕ чтобы добавить первый</div></div>';
+    return;
+  }
+  const attackColors = {
+    'Ransomware': 'red', 'Взлом RDP': 'red',
+    'Фишинг': 'yellow', 'Утечка данных': 'yellow',
+    'Профилактика': 'green', 'Дефейс сайта': 'yellow', 'Иное': 'blue'
+  };
+  el.innerHTML = cases.map(c => {
+    const color = attackColors[c.attack_type] || 'blue';
+    const date = c.date ? new Date(c.date).toLocaleDateString('ru-RU') : '—';
+    const amount = c.amount ? c.amount.toLocaleString('ru-RU') + ' ₽' : '—';
+    return `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+        <div style="font-size:13px;font-weight:700;color:var(--text)">${c.client_type || 'Клиент'}</div>
+        <div style="font-size:13px;font-weight:800;color:var(--green)">${amount}</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px">
+        <span style="font-size:11px;padding:2px 8px;border-radius:99px;background:var(--bg3);color:var(--text2)">${date}</span>
+        <span class="alert-card ${color}" style="font-size:11px;padding:2px 8px;border-radius:99px;margin:0;border-left:none">${c.attack_type || '—'}</span>
+      </div>
+      ${c.result ? `<div style="font-size:12px;color:var(--text3)">${c.result}</div>` : ''}
+      ${c.notes ? `<div style="font-size:12px;color:var(--text2);margin-top:4px">${c.notes}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function updateStats(cases) {
+  const total = cases.length;
+  const income = cases.reduce((s, c) => s + (c.amount || 0), 0);
+  const el1 = document.getElementById('stat-total');
+  const el2 = document.getElementById('stat-income');
+  if (el1) el1.textContent = total;
+  if (el2) el2.textContent = income ? income.toLocaleString('ru-RU') + ' ₽' : '0 ₽';
+}
+
+function showAddCase() {
+  const f = document.getElementById('add-case-form');
+  if (!f) return;
+  f.classList.remove('hidden');
+  // Дата по умолчанию
+  const d = document.getElementById('case-date');
+  if (d && !d.value) d.value = new Date().toISOString().split('T')[0];
+  f.scrollIntoView({ behavior: 'smooth' });
+}
+
+function hideAddCase() {
+  document.getElementById('add-case-form')?.classList.add('hidden');
+}
+
+async function saveCase() {
+  const btn = document.getElementById('save-case-text');
+  const get = id => (document.getElementById(id)?.value || '').trim();
+
+  const date = get('case-date');
+  if (!date) { showToast('Укажите дату'); return; }
+
+  const data = {
+    date,
+    client_type:  get('case-type'),
+    attack_type:  get('case-attack'),
+    result:       get('case-result'),
+    amount:       parseInt(get('case-amount')) || 0,
+    notes:        get('case-notes'),
+  };
+
+  if (btn) btn.textContent = '⏳';
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/ir_cases`, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal'
+      },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    showToast('✅ Кейс сохранён');
+    hideAddCase();
+    // Очищаем поля
+    ['case-date','case-amount','case-notes'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    await loadCases();
+  } catch(e) {
+    console.error('Save case error:', e.message);
+    showToast('Ошибка сохранения');
+  } finally {
+    if (btn) btn.textContent = 'Сохранить';
+  }
+}
+
+// ==============================
+// ЭТАП 5 — НАСТРОЙКИ
+// ==============================
+function initSettings() {
+  const vEl = document.getElementById('app-version-text');
+  if (vEl) vEl.textContent = APP_VERSION;
+
+  const tEl = document.getElementById('theme-label');
+  if (tEl) {
+    const t = localStorage.getItem(THEME_KEY) || 'light';
+    tEl.textContent = t === 'dark' ? 'Тёмная' : 'Светлая';
+  }
+
+  // Проверка Supabase
+  checkSupabase();
+}
+
+async function checkSupabase() {
+  const el = document.getElementById('supabase-status');
+  if (!el) return;
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/ir_cases?select=id&limit=1`, {
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+    });
+    el.textContent = res.ok ? '✅ Подключено' : '❌ Ошибка';
+    el.style.color = res.ok ? 'var(--green)' : 'var(--red)';
+  } catch {
+    el.textContent = '⚠️ Нет связи';
+    el.style.color = 'var(--yellow)';
+  }
+}
+
+async function changePassword() {
+  const oldPass  = document.getElementById('old-pass')?.value || '';
+  const newPass  = document.getElementById('new-pass')?.value || '';
+  const newPass2 = document.getElementById('new-pass2')?.value || '';
+  const errEl    = document.getElementById('pass-change-error');
+
+  if (errEl) errEl.textContent = '';
+
+  if (!oldPass || !newPass || !newPass2) {
+    if (errEl) errEl.textContent = 'Заполните все поля';
+    return;
+  }
+  if (newPass.length < 8) {
+    if (errEl) errEl.textContent = 'Новый пароль минимум 8 символов';
+    return;
+  }
+  if (newPass !== newPass2) {
+    if (errEl) errEl.textContent = 'Пароли не совпадают';
+    return;
+  }
+
+  try {
+    const oldHash = await hashPassword(oldPass);
+    const stored  = localStorage.getItem('ir_pass_hash') || DEFAULT_HASH;
+    if (oldHash !== stored) {
+      if (errEl) errEl.textContent = 'Неверный текущий пароль';
+      return;
+    }
+    const newHash = await hashPassword(newPass);
+    localStorage.setItem('ir_pass_hash', newHash);
+    document.getElementById('old-pass').value  = '';
+    document.getElementById('new-pass').value  = '';
+    document.getElementById('new-pass2').value = '';
+    showToast('✅ Пароль изменён');
+  } catch(e) {
+    console.error('Change pass error:', e.message);
+    if (errEl) errEl.textContent = 'Ошибка смены пароля';
+  }
+}
 
 // ==============================
 // ЭТАП 4 — АКТ ДЛЯ ПОЛИЦИИ
