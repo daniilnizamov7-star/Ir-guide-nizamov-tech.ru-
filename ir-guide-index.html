@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#1e3a5f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="robots" content="noindex, nofollow">
+<title>IR Guide</title>
+<link rel="manifest" href="/manifest.json">
+<style>
+/* ==============================
+   ТОКЕНЫ
+============================== */
+:root {
+  --bg:        #f8f9fc;
+  --bg2:       #ffffff;
+  --bg3:       #eef1f7;
+  --text:      #1a2340;
+  --text2:     #4a5568;
+  --text3:     #8a97b0;
+  --accent:    #1e3a5f;
+  --blue:      #2563eb;
+  --red:       #dc2626;
+  --green:     #16a34a;
+  --yellow:    #d97706;
+  --border:    #dde3ef;
+  --shadow:    0 2px 12px rgba(30,58,95,.08);
+  --radius:    14px;
+  --radius-sm: 8px;
+  --font:      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+[data-theme="dark"] {
+  --bg:        #0f172a;
+  --bg2:       #1e293b;
+  --bg3:       #263347;
+  --text:      #f1f5f9;
+  --text2:     #94a3b8;
+  --text3:     #64748b;
+  --accent:    #2563eb;
+  --border:    #2d3f58;
+  --shadow:    0 2px 12px rgba(0,0,0,.3);
+}
+
+/* ==============================
+   RESET
+============================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100%;
+  transition: background .2s, color .2s;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+input  { font-family: inherit; }
+
+/* ==============================
+   УТИЛИТЫ
+============================== */
+.hidden  { display: none !important; }
+.flex    { display: flex; }
+.col     { flex-direction: column; }
+.center  { align-items: center; justify-content: center; }
+.gap8    { gap: 8px; }
+.gap12   { gap: 12px; }
+.gap16   { gap: 16px; }
+
+/* ==============================
+   ЭКРАН ЗАГРУЗКИ
+============================== */
+#screen-loading {
+  position: fixed; inset: 0;
+  background: var(--accent);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 16px; z-index: 9999;
+  transition: opacity .3s;
+}
+#screen-loading .logo {
+  font-size: 28px; font-weight: 800;
+  color: #fff; letter-spacing: -0.5px;
+}
+#screen-loading .sub {
+  font-size: 13px; color: rgba(255,255,255,.6);
+  letter-spacing: 2px; text-transform: uppercase;
+}
+.spinner {
+  width: 32px; height: 32px;
+  border: 3px solid rgba(255,255,255,.2);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ==============================
+   ЭКРАН ВХОДА
+============================== */
+#screen-login {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 24px;
+  gap: 0;
+}
+.login-card {
+  width: 100%; max-width: 380px;
+  background: var(--bg2);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.login-header {
+  background: var(--accent);
+  padding: 28px 24px 24px;
+  text-align: center;
+}
+.login-header .logo-text {
+  font-size: 22px; font-weight: 800;
+  color: #fff; letter-spacing: -0.5px;
+}
+.login-header .logo-sub {
+  font-size: 11px; color: rgba(255,255,255,.6);
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-top: 4px;
+}
+.shield-icon {
+  font-size: 40px; margin-bottom: 12px;
+}
+.login-body {
+  padding: 24px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.login-label {
+  font-size: 13px; font-weight: 600;
+  color: var(--text2); margin-bottom: 6px;
+  display: block;
+}
+.login-input-wrap {
+  position: relative;
+}
+.login-input {
+  width: 100%;
+  padding: 14px 48px 14px 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg3);
+  color: var(--text);
+  font-size: 16px;
+  outline: none;
+  transition: border-color .2s;
+}
+.login-input:focus { border-color: var(--blue); }
+.login-input.error { border-color: var(--red); }
+.toggle-pass {
+  position: absolute; right: 14px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px; color: var(--text3);
+  padding: 4px; line-height: 1;
+}
+.login-btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--blue);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-size: 15px; font-weight: 700;
+  letter-spacing: 0.3px;
+  transition: opacity .2s, transform .1s;
+  position: relative;
+}
+.login-btn:active { transform: scale(.98); }
+.login-btn:disabled { opacity: .6; pointer-events: none; }
+.login-btn .btn-spinner {
+  display: none; width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  margin: 0 auto;
+}
+.login-btn.loading .btn-text { display: none; }
+.login-btn.loading .btn-spinner { display: block; }
+
+.login-error {
+  font-size: 13px; color: var(--red);
+  text-align: center; min-height: 18px;
+  font-weight: 500;
+}
+.login-attempts {
+  font-size: 12px; color: var(--text3);
+  text-align: center;
+}
+.login-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 12px; color: var(--text3);
+}
+
+/* ==============================
+   БАННЕР ОБНОВЛЕНИЯ
+============================== */
+#update-banner {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: var(--blue);
+  color: #fff;
+  padding: 12px 16px;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 8888;
+  font-size: 13px;
+  transform: translateY(-100%);
+  transition: transform .3s;
+}
+#update-banner.show { transform: translateY(0); }
+#update-banner button {
+  background: rgba(255,255,255,.2);
+  color: #fff; padding: 6px 14px;
+  border-radius: 6px; font-size: 12px;
+  font-weight: 600; white-space: nowrap;
+}
+
+/* ==============================
+   ОФЛАЙН ИНДИКАТОР
+============================== */
+#offline-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--yellow);
+  color: #fff; text-align: center;
+  padding: 8px; font-size: 13px; font-weight: 600;
+  transform: translateY(100%);
+  transition: transform .3s;
+  z-index: 8888;
+}
+#offline-bar.show { transform: translateY(0); }
+
+/* ==============================
+   ГЛАВНЫЙ ЭКРАН
+============================== */
+#screen-main {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+
+/* Хедер */
+.app-header {
+  background: var(--accent);
+  padding: 16px 20px 14px;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+.header-logo {
+  font-size: 17px; font-weight: 800;
+  color: #fff; letter-spacing: -0.3px;
+}
+.header-sub {
+  font-size: 10px; color: rgba(255,255,255,.5);
+  letter-spacing: 1.5px; text-transform: uppercase;
+  margin-top: 1px;
+}
+.header-actions {
+  display: flex; align-items: center; gap: 8px;
+}
+.icon-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.1);
+  display: flex; align-items: center;
+  justify-content: center;
+  font-size: 16px; color: #fff;
+  transition: background .2s;
+}
+.icon-btn:active { background: rgba(255,255,255,.2); }
+
+/* Контент */
+.main-content {
+  flex: 1; padding: 20px 16px 100px;
+  max-width: 480px; margin: 0 auto; width: 100%;
+}
+
+/* Статус-бар */
+.status-bar {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex; align-items: center;
+  gap: 10px; margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+.status-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 3px rgba(22,163,74,.15);
+  animation: pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(22,163,74,.15); }
+  50%       { box-shadow: 0 0 0 6px rgba(22,163,74,.05); }
+}
+.status-text { font-size: 13px; color: var(--text2); }
+.status-text strong { color: var(--text); }
+
+/* Разделы */
+.section-title {
+  font-size: 11px; font-weight: 700;
+  color: var(--text3); letter-spacing: 1.5px;
+  text-transform: uppercase; margin-bottom: 10px;
+  padding-left: 4px;
+}
+
+/* Кнопки разделов */
+.menu-grid {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-bottom: 20px;
+}
+.menu-btn {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex; align-items: center; gap: 14px;
+  text-align: left;
+  box-shadow: var(--shadow);
+  transition: transform .15s, box-shadow .15s;
+  position: relative; overflow: hidden;
+}
+.menu-btn:active {
+  transform: scale(.98);
+  box-shadow: none;
+}
+.menu-btn.urgent {
+  border-color: var(--red);
+  background: linear-gradient(135deg, #fff5f5 0%, var(--bg2) 100%);
+}
+[data-theme="dark"] .menu-btn.urgent {
+  background: linear-gradient(135deg, #2d1515 0%, var(--bg2) 100%);
+}
+.menu-btn.urgent::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px; background: var(--red);
+  border-radius: 14px 0 0 14px;
+}
+.menu-btn.primary::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px; background: var(--blue);
+  border-radius: 14px 0 0 14px;
+}
+.menu-btn.success::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px; background: var(--green);
+  border-radius: 14px 0 0 14px;
+}
+.menu-btn.neutral::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px; background: var(--text3);
+  border-radius: 14px 0 0 14px;
+}
+.btn-icon {
+  font-size: 26px; flex-shrink: 0;
+  width: 44px; height: 44px;
+  background: var(--bg3);
+  border-radius: 10px;
+  display: flex; align-items: center;
+  justify-content: center;
+}
+.btn-info { flex: 1; }
+.btn-title {
+  font-size: 15px; font-weight: 700;
+  color: var(--text); line-height: 1.2;
+}
+.btn-desc {
+  font-size: 12px; color: var(--text3);
+  margin-top: 2px; line-height: 1.3;
+}
+.btn-arrow {
+  font-size: 16px; color: var(--text3);
+  flex-shrink: 0;
+}
+
+/* Нижняя навигация */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+  display: flex;
+  box-shadow: 0 -2px 12px rgba(0,0,0,.06);
+  z-index: 100;
+}
+.nav-btn {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 3px;
+  padding: 6px 0;
+  color: var(--text3);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: color .2s;
+}
+.nav-btn.active { color: var(--blue); }
+.nav-btn .nav-icon { font-size: 20px; }
+
+/* ==============================
+   ТЕМА — ПЕРЕКЛЮЧАТЕЛЬ
+============================== */
+.theme-toggle {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.1);
+  display: flex; align-items: center;
+  justify-content: center;
+  font-size: 16px; color: #fff;
+  transition: background .2s;
+}
+.theme-toggle:active { background: rgba(255,255,255,.2); }
+
+/* ==============================
+   ТОСТ-УВЕДОМЛЕНИЯ
+============================== */
+#toast-container {
+  position: fixed; bottom: 80px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 9000; pointer-events: none;
+  display: flex; flex-direction: column;
+  gap: 8px; align-items: center;
+}
+.toast {
+  background: var(--text);
+  color: var(--bg);
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 13px; font-weight: 600;
+  white-space: nowrap;
+  animation: toast-in .3s ease;
+  pointer-events: none;
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ==============================
+   ЭКРАН-ЗАГЛУШКА (для будущих разделов)
+============================== */
+#screen-section {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+.section-header {
+  background: var(--accent);
+  padding: 16px 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.back-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.1);
+  display: flex; align-items: center;
+  justify-content: center;
+  font-size: 18px; color: #fff;
+}
+.section-header-title {
+  font-size: 17px; font-weight: 700; color: #fff;
+}
+.section-body {
+  flex: 1; padding: 24px 16px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 12px; text-align: center;
+}
+.coming-icon { font-size: 56px; }
+.coming-title {
+  font-size: 18px; font-weight: 700; color: var(--text);
+}
+.coming-desc {
+  font-size: 14px; color: var(--text2);
+  line-height: 1.5; max-width: 260px;
+}
+
+/* ==============================
+   АДАПТИВ
+============================== */
+@media (min-width: 480px) {
+  .main-content { padding: 24px 20px 100px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ЭКРАН ЗАГРУЗКИ -->
+<div id="screen-loading">
+  <div class="logo">IR Guide</div>
+  <div class="sub">Nizamov.tech</div>
+  <div class="spinner"></div>
+</div>
+
+<!-- БАННЕР ОБНОВЛЕНИЯ -->
+<div id="update-banner">
+  <span>Доступно обновление</span>
+  <button onclick="applyUpdate()">Обновить</button>
+</div>
+
+<!-- ОФЛАЙН БАР -->
+<div id="offline-bar">📵 Офлайн — данные из кэша</div>
+
+<!-- ТОСТЫ -->
+<div id="toast-container"></div>
+
+<!-- ==================== ЭКРАН ВХОДА ==================== -->
+<div id="screen-login" class="hidden">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="shield-icon">🛡️</div>
+      <div class="logo-text">IR Guide</div>
+      <div class="logo-sub">Nizamov.tech</div>
+    </div>
+    <div class="login-body">
+      <div>
+        <label class="login-label" for="pass-input">Пароль</label>
+        <div class="login-input-wrap">
+          <input
+            id="pass-input"
+            type="password"
+            class="login-input"
+            placeholder="Введите пароль"
+            autocomplete="current-password"
+            maxlength="64"
+          >
+          <button class="toggle-pass" onclick="togglePass()" type="button" aria-label="Показать пароль">👁️</button>
+        </div>
+      </div>
+      <div class="login-error" id="login-error"></div>
+      <button class="login-btn" id="login-btn" onclick="doLogin()">
+        <span class="btn-text">Войти</span>
+        <div class="btn-spinner"></div>
+      </button>
+      <div class="login-attempts" id="login-attempts"></div>
+    </div>
+    <div class="login-footer">
+      Только для авторизованных специалистов
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ГЛАВНЫЙ ЭКРАН ==================== -->
+<div id="screen-main" class="hidden">
+  <header class="app-header">
+    <div>
+      <div class="header-logo">IR Guide</div>
+      <div class="header-sub">Nizamov.tech</div>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Сменить тему" title="Сменить тему">🌙</button>
+      <button class="icon-btn" onclick="doLogout()" aria-label="Выйти" title="Выйти">🚪</button>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <!-- Статус -->
+    <div class="status-bar">
+      <div class="status-dot"></div>
+      <div class="status-text">
+        Система готова · <strong id="status-date"></strong>
+      </div>
+    </div>
+
+    <!-- ЭКСТРЕННЫЙ РАЗДЕЛ -->
+    <div class="section-title">Экстренные</div>
+    <div class="menu-grid">
+      <button class="menu-btn urgent" onclick="openSection('call')">
+        <div class="btn-icon">🚨</div>
+        <div class="btn-info">
+          <div class="btn-title">Первый звонок</div>
+          <div class="btn-desc">Чеклист вопросов клиенту · Инструкции</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
+    </div>
+
+    <!-- АНАЛИЗ -->
+    <div class="section-title">Анализ на месте</div>
+    <div class="menu-grid">
+      <button class="menu-btn primary" onclick="openSection('analysis')">
+        <div class="btn-icon">🔍</div>
+        <div class="btn-info">
+          <div class="btn-title">Анализ машины</div>
+          <div class="btn-desc">PowerShell команды · Красные флаги</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
+      <button class="menu-btn primary" onclick="openSection('shadow')">
+        <div class="btn-icon">💾</div>
+        <div class="btn-info">
+          <div class="btn-title">Теневые копии</div>
+          <div class="btn-desc">Найти · Подключить · Восстановить</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
+    </div>
+
+    <!-- ВОССТАНОВЛЕНИЕ -->
+    <div class="section-title">Восстановление</div>
+    <div class="menu-grid">
+      <button class="menu-btn success" onclick="openSection('1c')">
+        <div class="btn-icon">🏥</div>
+        <div class="btn-info">
+          <div class="btn-title">Восстановление 1С</div>
+          <div class="btn-desc">Из .dt · Из теневой копии · Нет бэкапа</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
+      <button class="menu-btn success" onclick="openSection('wazuh')">
+        <div class="btn-icon">🛡️</div>
+        <div class="btn-info">
+          <div class="btn-title">Wazuh мониторинг</div>
+          <div class="btn-desc">Установка агента · Проверка</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
+    </div>
+
+    <!-- ДОКУМЕНТЫ -->
+    <div class="section-title">Документы</div>
+    <div class="menu-grid">
+      <button class="menu-btn neutral" onclick="openSection('act')">
+        <div class="btn-icon">📄</div>
+        <div class="btn-info">
+          <div class="btn-title">Акт для полиции</div>
+          <div class="btn-desc">Заполнить · Скопировать текст</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
+      <button class="menu-btn neutral" onclick="openSection('cases')">
+        <div class="btn-icon">📓</div>
+        <div class="btn-info">
+          <div class="btn-title">Журнал кейсов</div>
+          <div class="btn-desc" id="cases-count-desc">Загрузка...</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Нижняя навигация -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active">
+      <span class="nav-icon">🏠</span>
+      <span>Главная</span>
+    </button>
+    <button class="nav-btn" onclick="openSection('cases')">
+      <span class="nav-icon">📓</span>
+      <span>Кейсы</span>
+    </button>
+    <button class="nav-btn" onclick="openSection('settings')">
+      <span class="nav-icon">⚙️</span>
+      <span>Настройки</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ==================== ЭКРАН РАЗДЕЛА (заглушка) ==================== -->
+<div id="screen-section" class="hidden">
+  <header class="section-header">
+    <button class="back-btn" onclick="goBack()" aria-label="Назад">‹</button>
+    <div class="section-header-title" id="section-title">Раздел</div>
+  </header>
+  <div class="section-body">
+    <div class="coming-icon" id="section-icon">🔧</div>
+    <div class="coming-title" id="section-coming-title">В разработке</div>
+    <div class="coming-desc" id="section-coming-desc">Этот раздел появится в следующем этапе</div>
+  </div>
+</div>
+
+<script>
+// ==============================
+// КОНСТАНТЫ
+// ==============================
+const APP_VERSION  = '1.0.0';
+const SESSION_KEY  = 'ir_session';
+const THEME_KEY    = 'ir_theme';
+const ATTEMPTS_KEY = 'ir_attempts';
+const BLOCK_KEY    = 'ir_block_until';
+const MAX_ATTEMPTS = 3;
+const BLOCK_MIN    = 5;
+const SESSION_HOURS= 12;
+
+// Пароль по умолчанию (хэш от "IR2026!")
+// Пользователь меняет в настройках
+const DEFAULT_HASH = 'a8f5c2b1d4e6f8a0b2c4d6e8f0a2b4c6d8e0f2a4b6c8d0e2f4a6b8c0d2e4f6a8';
+
+// ==============================
+// ХЭШИРОВАНИЕ
+// ==============================
+async function hashPassword(pass) {
+  const buf = await crypto.subtle.digest(
+    'SHA-256',
+    new TextEncoder().encode(pass + 'ir_nizamov_salt_2026')
+  );
+  return Array.from(new Uint8Array(buf))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+// ==============================
+// СЕССИЯ
+// ==============================
+function getSession() {
+  try {
+    const s = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
+    if (!s || !s.expires) return null;
+    if (Date.now() > s.expires) {
+      localStorage.removeItem(SESSION_KEY);
+      return null;
+    }
+    return s;
+  } catch { return null; }
+}
+
+function setSession() {
+  const expires = Date.now() + SESSION_HOURS * 60 * 60 * 1000;
+  localStorage.setItem(SESSION_KEY, JSON.stringify({ expires, v: APP_VERSION }));
+}
+
+function clearSession() {
+  localStorage.removeItem(SESSION_KEY);
+}
+
+// ==============================
+// БЛОКИРОВКА ПОПЫТОК
+// ==============================
+function getAttempts() {
+  return parseInt(localStorage.getItem(ATTEMPTS_KEY) || '0');
+}
+
+function isBlocked() {
+  const until = parseInt(localStorage.getItem(BLOCK_KEY) || '0');
+  if (Date.now() < until) return until;
+  return 0;
+}
+
+function registerFail() {
+  const attempts = getAttempts() + 1;
+  localStorage.setItem(ATTEMPTS_KEY, attempts);
+  if (attempts >= MAX_ATTEMPTS) {
+    const until = Date.now() + BLOCK_MIN * 60 * 1000;
+    localStorage.setItem(BLOCK_KEY, until);
+    localStorage.setItem(ATTEMPTS_KEY, '0');
+    return until;
+  }
+  return 0;
+}
+
+function clearAttempts() {
+  localStorage.removeItem(ATTEMPTS_KEY);
+  localStorage.removeItem(BLOCK_KEY);
+}
+
+function updateAttemptsUI() {
+  const attempts = getAttempts();
+  const el = document.getElementById('login-attempts');
+  if (attempts > 0) {
+    el.textContent = `Попыток осталось: ${MAX_ATTEMPTS - attempts}`;
+  } else {
+    el.textContent = '';
+  }
+}
+
+// Таймер блокировки
+let blockTimer = null;
+function startBlockTimer(until) {
+  const btn = document.getElementById('login-btn');
+  const err = document.getElementById('login-error');
+  btn.disabled = true;
+
+  function tick() {
+    const left = Math.ceil((until - Date.now()) / 1000);
+    if (left <= 0) {
+      clearTimeout(blockTimer);
+      btn.disabled = false;
+      err.textContent = '';
+      document.getElementById('login-attempts').textContent = '';
+      return;
+    }
+    const m = Math.floor(left / 60);
+    const s = left % 60;
+    err.textContent = `Заблокировано на ${m}:${s.toString().padStart(2,'0')}`;
+    blockTimer = setTimeout(tick, 1000);
+  }
+  tick();
+}
+
+// ==============================
+// ЛОГИН
+// ==============================
+let isLogging = false;
+
+async function doLogin() {
+  if (isLogging) return;
+
+  const passEl = document.getElementById('pass-input');
+  const errEl  = document.getElementById('login-error');
+  const btn    = document.getElementById('login-btn');
+  const pass   = passEl.value.trim();
+
+  errEl.textContent = '';
+  passEl.classList.remove('error');
+
+  if (!pass) {
+    errEl.textContent = 'Введите пароль';
+    passEl.classList.add('error');
+    passEl.focus();
+    return;
+  }
+
+  // Проверка блокировки
+  const blockedUntil = isBlocked();
+  if (blockedUntil) {
+    startBlockTimer(blockedUntil);
+    return;
+  }
+
+  isLogging = true;
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  try {
+    // Небольшая задержка для UX
+    await new Promise(r => setTimeout(r, 400));
+
+    const hash = await hashPassword(pass);
+    const stored = localStorage.getItem('ir_pass_hash') || DEFAULT_HASH;
+
+    if (hash === stored) {
+      clearAttempts();
+      setSession();
+      passEl.value = '';
+      showScreen('main');
+      loadCasesCount();
+    } else {
+      passEl.classList.add('error');
+      passEl.value = '';
+      passEl.focus();
+
+      const blockedNow = registerFail();
+      if (blockedNow) {
+        startBlockTimer(blockedNow);
+      } else {
+        const left = MAX_ATTEMPTS - getAttempts();
+        errEl.textContent = `Неверный пароль · Осталось попыток: ${left}`;
+        updateAttemptsUI();
+      }
+    }
+  } catch(e) {
+    console.error('Login error:', e.message);
+    errEl.textContent = 'Ошибка входа. Попробуйте снова.';
+  } finally {
+    isLogging = false;
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+
+function doLogout() {
+  if (!confirm('Выйти из IR Guide?')) return;
+  clearSession();
+  showScreen('login');
+  document.getElementById('pass-input').value = '';
+  document.getElementById('login-error').textContent = '';
+}
+
+function togglePass() {
+  const input = document.getElementById('pass-input');
+  const btn = document.querySelector('.toggle-pass');
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    btn.textContent = '👁️';
+  }
+}
+
+// Enter в поле пароля
+document.getElementById('pass-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+// ==============================
+// НАВИГАЦИЯ
+// ==============================
+const SCREENS = ['loading', 'login', 'main', 'section'];
+let currentScreen = 'loading';
+let prevScreen = null;
+
+function showScreen(name) {
+  SCREENS.forEach(s => {
+    const el = document.getElementById(`screen-${s}`);
+    if (el) el.classList.toggle('hidden', s !== name);
+  });
+  prevScreen = currentScreen;
+  currentScreen = name;
+
+  // Фокус на поле пароля
+  if (name === 'login') {
+    setTimeout(() => document.getElementById('pass-input')?.focus(), 100);
+  }
+}
+
+// Секции (заглушки для Этапа 1)
+const SECTIONS = {
+  call:     { title: 'Первый звонок',      icon: '🚨', desc: 'Чеклист вопросов и инструкции клиенту — появится в Этапе 2' },
+  analysis: { title: 'Анализ машины',      icon: '🔍', desc: 'PowerShell команды для анализа — появится в Этапе 2' },
+  shadow:   { title: 'Теневые копии',      icon: '💾', desc: 'Поиск и восстановление из теневых копий — появится в Этапе 3' },
+  '1c':     { title: 'Восстановление 1С',  icon: '🏥', desc: 'Пошаговое восстановление базы 1С — появится в Этапе 3' },
+  wazuh:    { title: 'Wazuh мониторинг',   icon: '🛡️', desc: 'Установка и настройка Wazuh агента — появится в Этапе 4' },
+  act:      { title: 'Акт для полиции',    icon: '📄', desc: 'Интерактивная форма акта — появится в Этапе 4' },
+  cases:    { title: 'Журнал кейсов',      icon: '📓', desc: 'История выездов и статистика — появится в Этапе 5' },
+  settings: { title: 'Настройки',          icon: '⚙️', desc: 'Смена пароля и параметры — появится в Этапе 6' },
+};
+
+function openSection(id) {
+  const s = SECTIONS[id];
+  if (!s) return;
+  document.getElementById('section-title').textContent        = s.title;
+  document.getElementById('section-icon').textContent         = s.icon;
+  document.getElementById('section-coming-title').textContent = s.title;
+  document.getElementById('section-coming-desc').textContent  = s.desc;
+  showScreen('section');
+}
+
+function goBack() {
+  if (prevScreen && prevScreen !== 'section') {
+    showScreen(prevScreen);
+  } else {
+    showScreen('main');
+  }
+}
+
+// Android back button
+window.addEventListener('popstate', e => {
+  e.preventDefault();
+  if (currentScreen === 'section') {
+    goBack();
+    history.pushState(null, '', location.href);
+  }
+});
+history.pushState(null, '', location.href);
+
+// ==============================
+// ТЕМА
+// ==============================
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  document.querySelector('.theme-toggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+  // theme-color meta
+  document.querySelector('meta[name="theme-color"]').content =
+    theme === 'dark' ? '#0f172a' : '#1e3a5f';
+  localStorage.setItem(THEME_KEY, theme);
+}
+
+function toggleTheme() {
+  const current = localStorage.getItem(THEME_KEY) || 'light';
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+
+// ==============================
+// ТОСТ
+// ==============================
+function showToast(msg, duration = 2000) {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.animation = 'none';
+    toast.style.opacity = '0';
+    toast.style.transition = 'opacity .3s';
+    setTimeout(() => toast.remove(), 300);
+  }, duration);
+}
+
+// ==============================
+// ДАТА В СТАТУС-БАРЕ
+// ==============================
+function updateStatusDate() {
+  const el = document.getElementById('status-date');
+  if (!el) return;
+  const now = new Date();
+  const days = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+  const d = now.getDate().toString().padStart(2,'0');
+  const m = (now.getMonth()+1).toString().padStart(2,'0');
+  el.textContent = `${days[now.getDay()]} ${d}.${m}`;
+}
+
+// ==============================
+// СЧЁТЧИК КЕЙСОВ (Supabase)
+// ==============================
+const SUPABASE_URL = 'https://isdxchotdertvdopvwcu.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlzZHhjaG90ZGVydHZkb3B2d2N1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2NDkxODQsImV4cCI6MjA5ODIyNTE4NH0.6rS9XprAgPGCOIYDRuEJy81syDAOfBSTonTlDatk93A';
+
+async function loadCasesCount() {
+  const el = document.getElementById('cases-count-desc');
+  if (!el) return;
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/ir_cases?select=id`,
+      { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, Prefer: 'count=exact' } }
+    );
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const count = res.headers.get('content-range')?.split('/')[1] || '0';
+    el.textContent = `${count} кейс${getEnding(parseInt(count))} · История выездов`;
+  } catch(e) {
+    console.warn('Cases count error:', e.message);
+    el.textContent = 'История выездов';
+  }
+}
+
+function getEnding(n) {
+  const abs = Math.abs(n) % 100;
+  const last = abs % 10;
+  if (abs >= 11 && abs <= 19) return 'ов';
+  if (last === 1) return '';
+  if (last >= 2 && last <= 4) return 'а';
+  return 'ов';
+}
+
+// ==============================
+// SERVICE WORKER
+// ==============================
+let newWorker = null;
+
+function applyUpdate() {
+  if (newWorker) {
+    newWorker.postMessage('CHECK_UPDATE');
+    setTimeout(() => location.reload(), 500);
+  } else {
+    location.reload();
+  }
+}
+
+function initSW() {
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('/sw.js')
+    .then(reg => {
+      reg.addEventListener('updatefound', () => {
+        newWorker = reg.installing;
+        newWorker?.addEventListener('statechange', () => {
+          if (newWorker?.state === 'installed' && navigator.serviceWorker.controller) {
+            document.getElementById('update-banner').classList.add('show');
+          }
+        });
+      });
+    })
+    .catch(e => console.warn('SW error:', e.message));
+}
+
+// ==============================
+// ОФЛАЙН
+// ==============================
+function initOffline() {
+  const bar = document.getElementById('offline-bar');
+  function update() {
+    bar.classList.toggle('show', !navigator.onLine);
+  }
+  window.addEventListener('online',  update);
+  window.addEventListener('offline', update);
+  update();
+}
+
+// ==============================
+// СТАРТ
+// ==============================
+async function init() {
+  // Применяем тему
+  const theme = localStorage.getItem(THEME_KEY) || 'light';
+  applyTheme(theme);
+
+  // Инициализация SW и офлайн
+  initSW();
+  initOffline();
+  updateStatusDate();
+
+  // Проверяем блокировку при запуске
+  const blockedUntil = isBlocked();
+  if (blockedUntil) {
+    setTimeout(() => startBlockTimer(blockedUntil), 600);
+  }
+  updateAttemptsUI();
+
+  // Минимальный сплэш
+  await new Promise(r => setTimeout(r, 800));
+
+  // Проверяем сессию
+  const session = getSession();
+  if (session) {
+    showScreen('main');
+    loadCasesCount();
+  } else {
+    showScreen('login');
+  }
+}
+
+// Запуск
+init().catch(e => {
+  console.error('Init error:', e.message);
+  showScreen('login');
+});
+</script>
+</body>
+</html>
