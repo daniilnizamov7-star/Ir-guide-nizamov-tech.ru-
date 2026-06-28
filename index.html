@@ -498,8 +498,60 @@ input  { font-family: inherit; }
 }
 
 /* ==============================
-   АДАПТИВ
+   ПОИСК
 ============================== */
+.search-wrap {
+  position: relative; margin-bottom: 16px;
+}
+.search-input {
+  width: 100%; padding: 12px 44px 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg2); color: var(--text);
+  font-size: 15px; font-family: var(--font);
+  outline: none; transition: border-color .2s;
+}
+.search-input:focus { border-color: var(--blue); }
+.search-icon {
+  position: absolute; right: 14px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px; color: var(--text3);
+  pointer-events: none;
+}
+.search-clear {
+  position: absolute; right: 14px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px; color: var(--text3);
+  background: none; border: none; cursor: pointer;
+  padding: 4px;
+}
+.search-results {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden; margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+.search-result-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer; transition: background .15s;
+}
+.search-result-item:last-child { border-bottom: none; }
+.search-result-item:active { background: var(--bg3); }
+.search-result-icon { font-size: 20px; flex-shrink: 0; }
+.search-result-info { flex: 1; }
+.search-result-title {
+  font-size: 14px; font-weight: 700; color: var(--text);
+}
+.search-result-desc {
+  font-size: 12px; color: var(--text3); margin-top: 2px;
+}
+.search-no-results {
+  padding: 20px; text-align: center;
+  font-size: 13px; color: var(--text3);
+}
 @media (min-width: 480px) {
   .main-content { padding: 24px 20px 100px; }
 }
@@ -787,6 +839,22 @@ input  { font-family: inherit; }
         Система готова · <strong id="status-date"></strong>
       </div>
     </div>
+
+    <!-- Поиск -->
+    <div class="search-wrap">
+      <input
+        id="search-input"
+        class="search-input"
+        type="search"
+        placeholder="🔍 Поиск по разделам..."
+        oninput="doSearch(this.value)"
+        autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"
+      >
+      <button class="search-clear hidden" id="search-clear" onclick="clearSearch()">✕</button>
+    </div>
+    <div id="search-results" class="hidden"></div>
 
     <!-- 1. ЭКСТРЕННЫЕ -->
     <div class="section-title">🚨 Экстренные</div>
@@ -4306,6 +4374,106 @@ function initOffline() {
   window.addEventListener('online',  update);
   window.addEventListener('offline', update);
   update();
+}
+
+// ==============================
+// ПОИСК ПО РАЗДЕЛАМ
+// ==============================
+const SEARCH_INDEX = [
+  { id: 'call',             icon: '📞', title: 'Первый звонок',          tags: 'звонок клиент вопросы инструкции скрипт телефон директор' },
+  { id: 'analysis',         icon: '🔍', title: 'Анализ машины',           tags: 'анализ powershell команды логи 4624 4625 4720 rdp брутфорс пользователи автозапуск соединения доказательства' },
+  { id: 'shadow',           icon: '💾', title: 'Теневые копии',           tags: 'теневые копии vssadmin shadow восстановить файлы без бэкапа' },
+  { id: '1c',               icon: '🏥', title: 'Восстановление 1С',       tags: '1с восстановление база dt бэкап файл nomoreransom дешифратор recuva' },
+  { id: 'wazuh',            icon: '🛡️', title: 'Wazuh + Sysmon',          tags: 'wazuh sysmon мониторинг установка агент защита служба' },
+  { id: 'act',              icon: '📄', title: 'Акт для полиции',         tags: 'акт полиция документ отчёт 272 152фз ркн заполнить' },
+  { id: 'checklist-before', icon: '🎒', title: 'Подготовка к выезду',     tags: 'подготовка выезд флешка документы патч-корд чеклист список' },
+  { id: 'checklist-after',  icon: '✅', title: 'После выезда',            tags: 'после выезда чеклист проверка пароль rdp закрыть уйти' },
+  { id: 'contract',         icon: '📝', title: 'Договор + NDA',           tags: 'договор nda конфиденциальность подпись клиент документ инн огрн' },
+  { id: 'cases',            icon: '📓', title: 'Журнал кейсов',           tags: 'журнал кейсы история выезды доход статистика supabase' },
+  { id: 'flash',            icon: '💾', title: 'Флешка',                  tags: 'флешка autoruns systeminformer recuva fulleventlogview инструменты wazuh sysmon write protect' },
+  { id: 'ref',              icon: '📚', title: 'Справочник',              tags: 'справочник ip порты процессы вирусы 4444 1337 svchost внешний внутренний локальный locked wncry' },
+  { id: 'crm',              icon: '👥', title: 'Клиенты',                 tags: 'клиенты crm ретейнер оплата wazuh статус просрочка' },
+  { id: 'price',            icon: '💰', title: 'Прайс',                   tags: 'прайс цены стоимость базовый стандарт премиум ретейнер услуги скидки' },
+  { id: 'settings',         icon: '⚙️', title: 'Настройки',               tags: 'настройки пароль сменить данные инн паспорт тема supabase' },
+  { id: 'ref',              icon: '🌐', title: 'IP — внутренние и внешние', tags: '192.168 10.0 127.0.0.1 внешний внутренний ip адрес локальный 2ip' },
+  { id: 'ref',              icon: '🔌', title: 'Порты — хакерские',        tags: '4444 1337 31337 3389 443 80 rdp порт metasploit tor' },
+  { id: 'ref',              icon: '⚙️', title: 'Процессы — норма и вирусы', tags: 'svchost svch0st lsass explorer процесс вирус маскировка system32' },
+  { id: 'ref',              icon: '🔒', title: 'Расширения шифровальщиков', tags: 'locked wncry ryuk conti dharma расширение вирус шифровальщик wannacry' },
+  { id: 'flash',            icon: '🔍', title: 'Autoruns — автозапуск',    tags: 'autoruns автозапуск verified publisher путь красный флаг not verified' },
+  { id: 'flash',            icon: '🔄', title: 'Recuva — восстановление',  tags: 'recuva восстановление удалённые файлы зелёный красный диск' },
+  { id: 'analysis',         icon: '🚨', title: 'Красные флаги',            tags: 'красный флаг подозрительный temp appdata programdata cmd powershell' },
+  { id: 'call',             icon: '💰', title: 'Продажа ретейнера',        tags: 'продажа ретейнер скрипт возражение дорого клиент мониторинг' },
+];
+
+function doSearch(query) {
+  const q = query.trim().toLowerCase();
+  const clearBtn = document.getElementById('search-clear');
+  const resultsEl = document.getElementById('search-results');
+
+  if (clearBtn) clearBtn.classList.toggle('hidden', !q);
+
+  // Скрыть/показать основные секции
+  const mainItems = document.querySelectorAll('.main-content > .section-title, .main-content > .menu-grid, .main-content > .status-bar');
+
+  if (!q) {
+    if (resultsEl) resultsEl.classList.add('hidden');
+    mainItems.forEach(el => el.style.display = '');
+    return;
+  }
+
+  mainItems.forEach(el => el.style.display = 'none');
+
+  // Поиск
+  const results = SEARCH_INDEX.filter(item => {
+    const text = (item.title + ' ' + item.tags).toLowerCase();
+    return q.split(' ').filter(Boolean).every(word => text.includes(word));
+  });
+
+  // Дедупликация
+  const seen = new Set();
+  const unique = results.filter(r => {
+    const key = r.id + '|' + r.title;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  if (!resultsEl) return;
+  resultsEl.classList.remove('hidden');
+
+  if (!unique.length) {
+    resultsEl.innerHTML = `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;color:var(--text3);font-size:13px">😕 Ничего не найдено по запросу «${query}»<br><span style="font-size:12px;margin-top:4px;display:block">Попробуй другое слово</span></div>`;
+    return;
+  }
+
+  resultsEl.innerHTML = `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)">` +
+    unique.map((item, i) => `
+      <div onclick="clearSearch(); openSection('${item.id}')" style="
+        padding:14px 16px;
+        border-bottom:${i < unique.length - 1 ? '1px solid var(--border)' : 'none'};
+        display:flex;align-items:center;gap:12px;
+        cursor:pointer;transition:background .15s;
+      " onmousedown="this.style.background='var(--bg3)'" onmouseup="this.style.background=''">
+        <div style="font-size:22px;flex-shrink:0">${item.icon}</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:700;color:var(--text)">${item.title}</div>
+        </div>
+        <div style="font-size:18px;color:var(--text3)">›</div>
+      </div>
+    `).join('') +
+  `</div>`;
+}
+
+function clearSearch() {
+  const input = document.getElementById('search-input');
+  const clearBtn = document.getElementById('search-clear');
+  const resultsEl = document.getElementById('search-results');
+  if (input) input.value = '';
+  if (clearBtn) clearBtn.classList.add('hidden');
+  if (resultsEl) resultsEl.classList.add('hidden');
+  document.querySelectorAll('.main-content > .section-title, .main-content > .menu-grid, .main-content > .status-bar').forEach(el => {
+    el.style.display = '';
+  });
 }
 
 // ==============================
