@@ -863,6 +863,27 @@ input  { font-family: inherit; }
         <div class="btn-arrow">›</div>
       </button>
     </div>
+
+    <!-- ИНСТРУМЕНТЫ -->
+    <div class="section-title">Инструменты</div>
+    <div class="menu-grid">
+      <button class="menu-btn primary" onclick="openSection('flash')">
+        <div class="btn-icon">💾</div>
+        <div class="btn-info">
+          <div class="btn-title">Руководство по флешке</div>
+          <div class="btn-desc">Autoruns · SystemInformer · Recuva</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
+      <button class="menu-btn primary" onclick="openSection('crm')">
+        <div class="btn-icon">👥</div>
+        <div class="btn-info">
+          <div class="btn-title">Клиенты</div>
+          <div class="btn-desc" id="crm-count-desc">CRM · Ретейнеры · Оплаты</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
+    </div>
   </div>
 
   <!-- Нижняя навигация -->
@@ -871,9 +892,13 @@ input  { font-family: inherit; }
       <span class="nav-icon">🏠</span>
       <span>Главная</span>
     </button>
-    <button class="nav-btn" onclick="openSection('cases')">
-      <span class="nav-icon">📓</span>
-      <span>Кейсы</span>
+    <button class="nav-btn" onclick="openSection('crm')">
+      <span class="nav-icon">👥</span>
+      <span>Клиенты</span>
+    </button>
+    <button class="nav-btn" onclick="openSection('flash')">
+      <span class="nav-icon">💾</span>
+      <span>Флешка</span>
     </button>
     <button class="nav-btn" onclick="openSection('price')">
       <span class="nav-icon">💰</span>
@@ -1877,6 +1902,353 @@ cmd /c mklink /d C:\ShadowRestore &quot;$path&quot;">
   </div>
 </div>
 
+<!-- ==================== ЭКРАН ФЛЕШКА ==================== -->
+<div id="screen-flash" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="goBack()" aria-label="Назад">‹</button>
+    <div class="section-header-title">💾 Руководство по флешке</div>
+  </header>
+  <div class="section-content">
+
+    <div class="alert-card yellow" style="margin-bottom:16px">
+      <div class="alert-title">⚡ Работает офлайн — всё здесь</div>
+      <ul class="alert-list">
+        <li>Открывай этот раздел на выезде без интернета</li>
+        <li>Все инструменты запускай от администратора</li>
+        <li>Write Protect ON перед подключением к заражённой машине</li>
+      </ul>
+    </div>
+
+    <!-- AUTORUNS -->
+    <div class="section-title">🔍 Autoruns — автозапуск</div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px">
+      <div style="background:var(--accent);padding:12px 16px">
+        <div style="font-size:13px;font-weight:700;color:#fff">Запуск</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.7);margin-top:2px">Autoruns.exe → правая кнопка → Запуск от администратора</div>
+      </div>
+      <div style="padding:14px 16px">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px">Что делаешь:</div>
+        <div class="checklist" id="auto-steps" style="gap:6px">
+          <div class="check-item" onclick="toggleCheck(this,'auto')">
+            <div class="check-box"></div>
+            <div><div class="check-text">Нажать вкладку Everything — видишь всё</div></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,'auto')">
+            <div class="check-box"></div>
+            <div><div class="check-text">Смотришь колонку Publisher (издатель)</div></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,'auto')">
+            <div class="check-box"></div>
+            <div><div class="check-text">Смотришь колонку Image Path (путь к файлу)</div></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,'auto')">
+            <div class="check-box"></div>
+            <div><div class="check-text">Фиксируешь подозрительные записи</div></div>
+          </div>
+        </div>
+
+        <div class="alert-card red" style="margin-top:10px">
+          <div class="alert-title">🚨 Красные флаги</div>
+          <ul class="alert-list">
+            <li>Publisher пустой или «Not Verified»</li>
+            <li>Путь в Temp / AppData / ProgramData</li>
+            <li>Название похоже на системное: svch0st, svchost32</li>
+            <li>Розовый/красный фон записи</li>
+          </ul>
+        </div>
+        <div class="alert-card green" style="margin-top:8px">
+          <div class="alert-title">✅ Норма — не трогать</div>
+          <ul class="alert-list">
+            <li>Verified Microsoft / Google / известный вендор</li>
+            <li>Жёлтый фон + File not found = мусор, не опасно</li>
+            <li>Путь C:\Windows\ или C:\Program Files\</li>
+          </ul>
+        </div>
+
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin:12px 0 6px">Нашёл подозрительное:</div>
+        <div class="alert-card blue">
+          <ul class="alert-list">
+            <li>Снять галочку — отключить автозапуск</li>
+            <li>Правая кнопка → Delete — удалить запись</li>
+            <li>Записать путь к файлу для акта</li>
+            <li>Найти и удалить сам файл вируса</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SYSTEM INFORMER -->
+    <div class="section-title">⚙️ SystemInformer — процессы</div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px">
+      <div style="background:var(--accent);padding:12px 16px">
+        <div style="font-size:13px;font-weight:700;color:#fff">Запуск</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.7);margin-top:2px">systeminformer-bin\ → SystemInformer.exe → от администратора</div>
+      </div>
+      <div style="padding:14px 16px">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px">Цвета процессов:</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:16px;height:16px;background:#1e3a5f;border-radius:3px;flex-shrink:0"></div>
+            <div style="font-size:12px;color:var(--text)">Синий — системные (СИСТЕМА) — норма</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:16px;height:16px;background:#7c3aed;border-radius:3px;flex-shrink:0"></div>
+            <div style="font-size:12px;color:var(--text)">Фиолетовый — сервисы Windows — норма</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:16px;height:16px;background:#16a34a;border-radius:3px;flex-shrink:0"></div>
+            <div style="font-size:12px;color:var(--text)">Зелёный — только что запустился</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:16px;height:16px;background:#dc2626;border-radius:3px;flex-shrink:0"></div>
+            <div style="font-size:12px;color:var(--text)">Красный — завершается (мигает — норма)</div>
+          </div>
+        </div>
+
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px">Вкладка Network — главная:</div>
+        <div class="alert-card red" style="margin-bottom:8px">
+          <div class="alert-title">🚨 Опасно в Network</div>
+          <ul class="alert-list">
+            <li>PowerShell.exe → внешний IP</li>
+            <li>cmd.exe → любой внешний IP</li>
+            <li>Незнакомый процесс → порты 4444, 1337, 31337</li>
+            <li>Много соединений на один подозрительный IP</li>
+          </ul>
+        </div>
+
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin:10px 0 6px">Нашёл подозрительный процесс:</div>
+        <div class="alert-card blue">
+          <ul class="alert-list">
+            <li>Правая кнопка на процессе → Properties → смотри путь</li>
+            <li>Правая кнопка → Terminate — убить процесс</li>
+            <li>Записать PID и путь для акта</li>
+            <li>Потом найти в Autoruns и убрать из автозапуска</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- FULLEVENTLOGVIEW -->
+    <div class="section-title">📋 FullEventLogView — логи</div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px">
+      <div style="background:var(--accent);padding:12px 16px">
+        <div style="font-size:13px;font-weight:700;color:#fff">Запуск</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.7);margin-top:2px">fulleventlogview\ → FullEventLogView.exe → от администратора</div>
+      </div>
+      <div style="padding:14px 16px">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px">Настройка фильтра:</div>
+        <div class="checklist" style="gap:6px;margin-bottom:10px" id="felv-steps">
+          <div class="check-item" onclick="toggleCheck(this,'felv')">
+            <div class="check-box"></div>
+            <div><div class="check-text">Options → Advanced Options</div></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,'felv')">
+            <div class="check-box"></div>
+            <div><div class="check-text">Show only specified channels → написать: Security</div></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,'felv')">
+            <div class="check-box"></div>
+            <div><div class="check-text">Show only specified Event IDs → 4624,4625,4720,4672</div></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,'felv')">
+            <div class="check-box"></div>
+            <div><div class="check-text">Нажать OK → F5 для обновления</div></div>
+          </div>
+        </div>
+
+        <button class="copy-btn" onclick="copyData(this)" data-copy="4624,4625,4720,4672">
+          <div class="copy-icon">📋</div>
+          <div class="copy-info">
+            <div class="copy-title">Коды событий — скопировать</div>
+            <div class="copy-code">4624,4625,4720,4672</div>
+          </div>
+          <div class="copy-badge">✓</div>
+        </button>
+
+        <div class="alert-card red" style="margin-top:10px">
+          <div class="alert-title">🚨 Что ищешь</div>
+          <ul class="alert-list">
+            <li>4625 много раз подряд с одного IP = брутфорс</li>
+            <li>4624 тип 10 с внешнего IP = зашли по RDP</li>
+            <li>4720 — создан новый пользователь (взломщик)</li>
+            <li>Незнакомое имя пользователя в событиях</li>
+          </ul>
+        </div>
+
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin:10px 0 6px">Нашёл подозрительное:</div>
+        <div class="alert-card blue">
+          <ul class="alert-list">
+            <li>Записать IP атакующего — идёт в акт</li>
+            <li>Записать время первого входа — это начало атаки</li>
+            <li>File → Save Selected Items — сохранить на свою флешку</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECUVA -->
+    <div class="section-title">🔄 Recuva — восстановление файлов</div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px">
+      <div style="background:var(--accent);padding:12px 16px">
+        <div style="font-size:13px;font-weight:700;color:#fff">Запуск</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.7);margin-top:2px">RecuvaPortable\ → RecuvaPortable.exe → от администратора</div>
+      </div>
+      <div style="padding:14px 16px">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px">Когда использовать:</div>
+        <div class="alert-card yellow" style="margin-bottom:10px">
+          <ul class="alert-list">
+            <li>Нет бэкапа и нет теневых копий</li>
+            <li>Взломщик зашифровал файлы — оригиналы мог удалить</li>
+            <li>Удалённый файл ещё на диске если не перезаписан</li>
+          </ul>
+        </div>
+
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px">Пошагово:</div>
+        <div class="checklist" style="gap:6px;margin-bottom:10px" id="recuva-steps">
+          <div class="check-item" onclick="toggleCheck(this,'recuva')">
+            <div class="check-box"></div>
+            <div><div class="check-text">Выбрать диск клиента (C: или D:)</div></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,'recuva')">
+            <div class="check-box"></div>
+            <div><div class="check-text">Нажать Scan — ждать 2-5 минут</div></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,'recuva')">
+            <div class="check-box"></div>
+            <div><div class="check-text">В поиске написать: 1Cv8 или .dt или .docx</div></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,'recuva')">
+            <div class="check-box"></div>
+            <div><div class="check-text">Зелёный кружок = восстановим, красный = нет</div></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,'recuva')">
+            <div class="check-box"></div>
+            <div><div class="check-text">Выбрать зелёные файлы → Recover</div></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,'recuva')">
+            <div class="check-box"></div>
+            <div><div class="check-text">Сохранить на СВОЮ флешку (не на диск клиента!)</div></div>
+          </div>
+        </div>
+
+        <div class="alert-card red">
+          <div class="alert-title">⚠️ Важно</div>
+          <ul class="alert-list">
+            <li>Никогда не сохраняй восстановленные файлы на тот же диск</li>
+            <li>Чем больше работает машина — тем меньше шансов восстановить</li>
+            <li>Если нашёл 1С базу — сразу восстанавливай</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ОБЩИЙ ПОРЯДОК -->
+    <div class="section-title">📋 Порядок работы на выезде</div>
+    <div class="alert-card blue">
+      <div class="alert-title">Последовательность инструментов</div>
+      <ul class="alert-list">
+        <li>1. SystemInformer → убить активные вирусные процессы</li>
+        <li>2. Autoruns → убрать вирус из автозапуска</li>
+        <li>3. FullEventLogView → найти точку входа для акта</li>
+        <li>4. Recuva → восстановить файлы если нет бэкапа</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== ЭКРАН CRM КЛИЕНТОВ ==================== -->
+<div id="screen-crm" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="goBack()" aria-label="Назад">‹</button>
+    <div class="section-header-title">👥 Клиенты</div>
+    <button class="icon-btn" onclick="showAddClient()" aria-label="Добавить" style="margin-left:auto">➕</button>
+  </header>
+  <div class="section-content">
+
+    <!-- Статистика -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:20px">
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;text-align:center">
+        <div style="font-size:24px;font-weight:800;color:var(--blue)" id="crm-total">—</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:2px">Клиентов</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;text-align:center">
+        <div style="font-size:24px;font-weight:800;color:var(--green)" id="crm-active">—</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:2px">Активных</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;text-align:center">
+        <div style="font-size:20px;font-weight:800;color:var(--green)" id="crm-monthly">—</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:2px">₽/мес</div>
+      </div>
+    </div>
+
+    <!-- Форма добавления клиента -->
+    <div id="add-client-form" class="hidden" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px">
+      <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px">➕ Новый клиент</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div>
+          <label class="login-label" for="client-name">Название (анонимно)</label>
+          <input id="client-name" class="login-input" type="text" placeholder="Завод №1 или ООО Клиент">
+        </div>
+        <div>
+          <label class="login-label" for="client-type">Тип</label>
+          <select id="client-type" class="login-input">
+            <option value="Малый бизнес">Малый бизнес</option>
+            <option value="Средний бизнес">Средний бизнес</option>
+            <option value="Завод">Завод</option>
+            <option value="Университет">Университет</option>
+            <option value="Бюджетная организация">Бюджетная организация</option>
+          </select>
+        </div>
+        <div>
+          <label class="login-label" for="client-plan">Ретейнер</label>
+          <select id="client-plan" class="login-input">
+            <option value="Нет">Нет (разовый)</option>
+            <option value="Базовый">Базовый — 5 000 ₽/мес</option>
+            <option value="Стандарт">Стандарт — 10 000 ₽/мес</option>
+            <option value="Премиум">Премиум — 20 000 ₽/мес</option>
+          </select>
+        </div>
+        <div>
+          <label class="login-label" for="client-amount">Сумма ретейнера (₽/мес)</label>
+          <input id="client-amount" class="login-input" type="number" placeholder="5000" min="0">
+        </div>
+        <div>
+          <label class="login-label" for="client-next-pay">Следующая оплата</label>
+          <input id="client-next-pay" class="login-input" type="date">
+        </div>
+        <div>
+          <label class="login-label" for="client-wazuh">Wazuh агент</label>
+          <select id="client-wazuh" class="login-input">
+            <option value="Не установлен">Не установлен</option>
+            <option value="Установлен">Установлен</option>
+            <option value="Требует проверки">Требует проверки</option>
+          </select>
+        </div>
+        <div>
+          <label class="login-label" for="client-notes">Заметки</label>
+          <input id="client-notes" class="login-input" type="text" placeholder="1С файловая, сервер Windows 2019">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <button class="action-btn outline" onclick="hideAddClient()">Отмена</button>
+          <button class="action-btn blue" onclick="saveClient()">
+            <span id="save-client-text">Сохранить</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Список клиентов -->
+    <div id="crm-list">
+      <div style="text-align:center;padding:40px 20px;color:var(--text3)">
+        <div style="font-size:40px;margin-bottom:8px">👥</div>
+        <div style="font-size:14px">Загрузка клиентов...</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <!-- ==================== ЭКРАН РАЗДЕЛА (заглушка) ==================== -->
 <div id="screen-section" class="hidden">
   <header class="section-header">
@@ -2107,7 +2479,7 @@ document.getElementById('pass-input').addEventListener('keydown', e => {
 // ==============================
 // НАВИГАЦИЯ
 // ==============================
-const SCREENS = ['loading','login','main','section','call','analysis','shadow','1c','wazuh','act','cases','price','settings'];
+const SCREENS = ['loading','login','main','section','call','analysis','shadow','1c','wazuh','act','cases','price','settings','flash','crm'];
 let currentScreen = 'loading';
 let prevScreen = null;
 
@@ -2145,6 +2517,8 @@ function openSection(id) {
   if (id === 'cases')    { showScreen('cases'); loadCases(); return; }
   if (id === 'price')    { showScreen('price');    return; }
   if (id === 'settings') { initSettings(); showScreen('settings'); return; }
+  if (id === 'flash')    { showScreen('flash');    return; }
+  if (id === 'crm')      { showScreen('crm'); loadClients(); return; }
 
   const s = SECTIONS[id];
   if (!s) return;
@@ -2156,7 +2530,7 @@ function openSection(id) {
 }
 
 function goBack() {
-  const mainScreens = ['call','analysis','shadow','1c','wazuh','act','cases','price','settings','section'];
+  const mainScreens = ['call','analysis','shadow','1c','wazuh','act','cases','price','settings','flash','crm','section'];
   if (mainScreens.includes(currentScreen)) {
     showScreen('main');
   } else if (prevScreen && prevScreen !== currentScreen) {
@@ -2168,7 +2542,7 @@ function goBack() {
 
 window.addEventListener('popstate', e => {
   e.preventDefault();
-  if (['call','analysis','shadow','1c','wazuh','act','cases','price','settings','section'].includes(currentScreen)) {
+  if (['call','analysis','shadow','1c','wazuh','act','cases','price','settings','flash','crm','section'].includes(currentScreen)) {
     goBack();
     history.pushState(null, '', location.href);
   }
@@ -2302,8 +2676,153 @@ async function saveCase() {
 }
 
 // ==============================
-// ЭТАП 5 — НАСТРОЙКИ
+// ЭТАП 6Б — CRM КЛИЕНТОВ
 // ==============================
+const CLIENTS_KEY = 'ir_clients';
+
+function loadClients() {
+  try {
+    const clients = getClients();
+    renderClients(clients);
+    updateCRMStats(clients);
+  } catch(e) {
+    console.error('Load clients error:', e.message);
+  }
+}
+
+function getClients() {
+  try {
+    return JSON.parse(localStorage.getItem(CLIENTS_KEY) || '[]');
+  } catch { return []; }
+}
+
+function saveClients(clients) {
+  localStorage.setItem(CLIENTS_KEY, JSON.stringify(clients));
+}
+
+function renderClients(clients) {
+  const el = document.getElementById('crm-list');
+  if (!el) return;
+  if (!clients.length) {
+    el.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text3)"><div style="font-size:40px">👥</div><div style="font-size:14px;margin-top:8px">Клиентов пока нет<br>Нажмите ➕ чтобы добавить</div></div>';
+    return;
+  }
+
+  const planColors = {
+    'Базовый': 'blue', 'Стандарт': 'green',
+    'Премиум': 'yellow', 'Нет': 'neutral'
+  };
+  const wazuhIcons = {
+    'Установлен': '✅', 'Не установлен': '❌', 'Требует проверки': '⚠️'
+  };
+
+  el.innerHTML = clients.map((c, i) => {
+    const color = planColors[c.plan] || 'blue';
+    const wazuh = wazuhIcons[c.wazuh] || '—';
+    const nextPay = c.next_pay ? new Date(c.next_pay).toLocaleDateString('ru-RU') : '—';
+    const daysLeft = c.next_pay ? Math.ceil((new Date(c.next_pay) - new Date()) / 86400000) : null;
+    const payAlert = daysLeft !== null && daysLeft <= 7;
+
+    return `<div style="background:var(--bg2);border:1px solid ${payAlert ? 'var(--red)' : 'var(--border)'};border-radius:var(--radius-sm);padding:14px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--text)">${c.name || 'Клиент'}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px">${c.type || ''}</div>
+        </div>
+        <button onclick="deleteClient(${i})" style="font-size:16px;color:var(--text3);background:none;border:none;cursor:pointer;padding:2px">🗑️</button>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+        <span class="alert-card ${color}" style="font-size:11px;padding:2px 8px;border-radius:99px;margin:0;border-left:none">${c.plan || 'Нет'}</span>
+        ${c.amount ? `<span style="font-size:11px;padding:2px 8px;border-radius:99px;background:var(--bg3);color:var(--green);font-weight:700">${parseInt(c.amount).toLocaleString('ru-RU')} ₽/мес</span>` : ''}
+      </div>
+      <div style="display:flex;gap:12px;font-size:12px;color:var(--text2)">
+        <span>Wazuh: ${wazuh}</span>
+        <span style="color:${payAlert ? 'var(--red)' : 'var(--text2)'}">
+          Оплата: ${nextPay}${daysLeft !== null ? ` (${daysLeft > 0 ? daysLeft + ' дн' : 'просрочено'})` : ''}
+        </span>
+      </div>
+      ${c.notes ? `<div style="font-size:12px;color:var(--text3);margin-top:6px">${c.notes}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function updateCRMStats(clients) {
+  const total = clients.length;
+  const active = clients.filter(c => c.plan && c.plan !== 'Нет').length;
+  const monthly = clients.reduce((s, c) => s + (parseInt(c.amount) || 0), 0);
+  const el1 = document.getElementById('crm-total');
+  const el2 = document.getElementById('crm-active');
+  const el3 = document.getElementById('crm-monthly');
+  if (el1) el1.textContent = total;
+  if (el2) el2.textContent = active;
+  if (el3) el3.textContent = monthly ? monthly.toLocaleString('ru-RU') : '0';
+}
+
+function showAddClient() {
+  const f = document.getElementById('add-client-form');
+  if (!f) return;
+  f.classList.remove('hidden');
+  const d = document.getElementById('client-next-pay');
+  if (d && !d.value) {
+    const next = new Date();
+    next.setMonth(next.getMonth() + 1);
+    d.value = next.toISOString().split('T')[0];
+  }
+  f.scrollIntoView({ behavior: 'smooth' });
+}
+
+function hideAddClient() {
+  document.getElementById('add-client-form')?.classList.add('hidden');
+}
+
+function saveClient() {
+  const get = id => (document.getElementById(id)?.value || '').trim();
+  const name = get('client-name');
+  if (!name) { showToast('Укажите название'); return; }
+
+  const btn = document.getElementById('save-client-text');
+  if (btn) btn.textContent = '⏳';
+
+  try {
+    const clients = getClients();
+    clients.push({
+      name,
+      type:     get('client-type'),
+      plan:     get('client-plan'),
+      amount:   get('client-amount'),
+      next_pay: get('client-next-pay'),
+      wazuh:    get('client-wazuh'),
+      notes:    get('client-notes'),
+      created:  new Date().toISOString()
+    });
+    saveClients(clients);
+    showToast('✅ Клиент сохранён');
+    hideAddClient();
+    ['client-name','client-amount','client-notes','client-next-pay'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    loadClients();
+  } catch(e) {
+    console.error('Save client error:', e.message);
+    showToast('Ошибка сохранения');
+  } finally {
+    if (btn) btn.textContent = 'Сохранить';
+  }
+}
+
+function deleteClient(index) {
+  if (!confirm('Удалить клиента?')) return;
+  try {
+    const clients = getClients();
+    clients.splice(index, 1);
+    saveClients(clients);
+    loadClients();
+    showToast('Клиент удалён');
+  } catch(e) {
+    console.error('Delete client error:', e.message);
+  }
+}
 function initSettings() {
   const vEl = document.getElementById('app-version-text');
   if (vEl) vEl.textContent = APP_VERSION;
