@@ -714,7 +714,7 @@ input  { font-family: inherit; }
 <!-- ЭКРАН ЗАГРУЗКИ -->
 <div id="screen-loading">
   <div class="logo">IR Guide</div>
-  <div class="sub">Nizamov.tech</div>
+  <div class="sub">nizamov-tech.ru</div>
   <div class="spinner"></div>
 </div>
 
@@ -736,7 +736,7 @@ input  { font-family: inherit; }
     <div class="login-header">
       <div class="shield-icon">🛡️</div>
       <div class="logo-text">IR Guide</div>
-      <div class="logo-sub">Nizamov.tech</div>
+      <div class="logo-sub">nizamov-tech.ru</div>
     </div>
     <div class="login-body">
       <div>
@@ -771,7 +771,7 @@ input  { font-family: inherit; }
   <header class="app-header">
     <div>
       <div class="header-logo">IR Guide</div>
-      <div class="header-sub">Nizamov.tech</div>
+      <div class="header-sub">nizamov-tech.ru</div>
     </div>
     <div class="header-actions">
       <button class="theme-toggle" onclick="toggleTheme()" aria-label="Сменить тему" title="Сменить тему">🌙</button>
@@ -2003,6 +2003,34 @@ cmd /c mklink /d C:\ShadowRestore &quot;$path&quot;">
   </header>
   <div class="section-content">
 
+    <div class="section-title">Мои данные (для договора)</div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div>
+          <label class="login-label" for="my-fio">ФИО</label>
+          <input id="my-fio" class="login-input" type="text" placeholder="Низамов Даниил Алексеевич">
+        </div>
+        <div>
+          <label class="login-label" for="my-passport">Паспорт (серия и номер)</label>
+          <input id="my-passport" class="login-input" type="text" placeholder="7400 123456">
+        </div>
+        <div>
+          <label class="login-label" for="my-inn">ИНН самозанятого</label>
+          <input id="my-inn" class="login-input" type="text" placeholder="744001234567">
+        </div>
+        <div>
+          <label class="login-label" for="my-address">Адрес регистрации</label>
+          <input id="my-address" class="login-input" type="text" placeholder="г. Челябинск, ул. Примерная, д. 1, кв. 1">
+        </div>
+        <div>
+          <label class="login-label" for="my-bank">Реквизиты (СБП или карта)</label>
+          <input id="my-bank" class="login-input" type="text" placeholder="+7 991 174-51-13 (СБП, Тинькофф)">
+        </div>
+        <button class="action-btn blue" onclick="saveMyData()">💾 Сохранить данные</button>
+        <div id="my-data-saved" style="font-size:13px;color:var(--green);text-align:center;min-height:18px"></div>
+      </div>
+    </div>
+
     <div class="section-title">Безопасность</div>
     <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px">
       <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px">Сменить пароль</div>
@@ -2045,7 +2073,7 @@ cmd /c mklink /d C:\ShadowRestore &quot;$path&quot;">
     <div class="section-title">Контакт</div>
     <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px">
       <div style="font-size:13px;color:var(--text2);line-height:1.6">
-        Даниил Низамов · Nizamov.tech<br>
+        Даниил Низамов · nizamov-tech.ru<br>
         Telegram: @Aslyamov74<br>
         Сайт: nizamov-tech.ru<br>
         Телефон: +7 991 174-51-13
@@ -3045,8 +3073,20 @@ cmd /c mklink /d C:\ShadowRestore &quot;$path&quot;">
         <input id="c-director" class="login-input" type="text" placeholder="Иванов Иван Иванович">
       </div>
       <div>
-        <label class="login-label" for="c-address">Адрес организации</label>
+        <label class="login-label" for="c-inn-org">ИНН организации</label>
+        <input id="c-inn-org" class="login-input" type="text" placeholder="7440012345">
+      </div>
+      <div>
+        <label class="login-label" for="c-ogrn">ОГРН / ОГРНИП</label>
+        <input id="c-ogrn" class="login-input" type="text" placeholder="1027400000000">
+      </div>
+      <div>
+        <label class="login-label" for="c-address">Юридический адрес</label>
         <input id="c-address" class="login-input" type="text" placeholder="г. Челябинск, ул. Примерная, 1">
+      </div>
+      <div>
+        <label class="login-label" for="c-phone">Телефон клиента</label>
+        <input id="c-phone" class="login-input" type="tel" placeholder="+7 900 000-00-00">
       </div>
       <div>
         <label class="login-label" for="c-date">Дата договора</label>
@@ -3056,7 +3096,7 @@ cmd /c mklink /d C:\ShadowRestore &quot;$path&quot;">
         <label class="login-label" for="c-service">Вид услуги</label>
         <select id="c-service" class="login-input">
           <option value="Реагирование на инцидент ИБ и восстановление данных">Реагирование на инцидент ИБ</option>
-          <option value="Установка системы мониторинга Wazuh">Установка Wazuh мониторинга</option>
+          <option value="Установка системы мониторинга Wazuh + Sysmon">Установка Wazuh + Sysmon</option>
           <option value="Аудит информационной безопасности">Аудит безопасности</option>
           <option value="Абонентское обслуживание (ретейнер)">Ретейнер (абонентское)</option>
           <option value="Обучение сотрудников основам ИБ">Обучение сотрудников</option>
@@ -3068,7 +3108,7 @@ cmd /c mklink /d C:\ShadowRestore &quot;$path&quot;">
       </div>
       <div>
         <label class="login-label" for="c-deadline">Срок выполнения</label>
-        <input id="c-deadline" class="login-input" type="text" placeholder="1 рабочий день / до 28.06.2026">
+        <input id="c-deadline" class="login-input" type="text" placeholder="1 рабочий день">
       </div>
     </div>
 
@@ -3589,6 +3629,39 @@ function toggleCheck(el, listId) {
 }
 
 // ==============================
+// МОИ ДАННЫЕ
+// ==============================
+const MY_DATA_KEY = 'ir_my_data';
+
+function saveMyData() {
+  const data = {
+    fio:      (document.getElementById('my-fio')?.value     || '').trim(),
+    passport: (document.getElementById('my-passport')?.value || '').trim(),
+    inn:      (document.getElementById('my-inn')?.value      || '').trim(),
+    address:  (document.getElementById('my-address')?.value  || '').trim(),
+    bank:     (document.getElementById('my-bank')?.value     || '').trim(),
+  };
+  localStorage.setItem(MY_DATA_KEY, JSON.stringify(data));
+  const el = document.getElementById('my-data-saved');
+  if (el) { el.textContent = '✅ Данные сохранены'; setTimeout(() => el.textContent = '', 2000); }
+  showToast('✅ Данные сохранены');
+}
+
+function getMyData() {
+  try { return JSON.parse(localStorage.getItem(MY_DATA_KEY) || '{}'); }
+  catch { return {}; }
+}
+
+function loadMyDataToForm() {
+  const d = getMyData();
+  if (d.fio)      document.getElementById('my-fio').value      = d.fio;
+  if (d.passport) document.getElementById('my-passport').value = d.passport;
+  if (d.inn)      document.getElementById('my-inn').value      = d.inn;
+  if (d.address)  document.getElementById('my-address').value  = d.address;
+  if (d.bank)     document.getElementById('my-bank').value     = d.bank;
+}
+
+// ==============================
 // ДОГОВОР + NDA
 // ==============================
 function initContract() {
@@ -3598,98 +3671,129 @@ function initContract() {
 
 function generateContract() {
   const get = id => (document.getElementById(id)?.value || '').trim();
+  const my = getMyData();
+
+  const myFio      = my.fio      || 'Низамов Даниил Алексеевич';
+  const myPassport = my.passport || '[серия номер паспорта]';
+  const myInn      = my.inn      || '[ИНН самозанятого]';
+  const myAddress  = my.address  || 'г. Челябинск';
+  const myBank     = my.bank     || '+7 991 174-51-13 (СБП)';
+
   const org      = get('c-org')      || '[название организации]';
   const director = get('c-director') || '[ФИО директора]';
+  const innOrg   = get('c-inn-org')  || '[ИНН организации]';
+  const ogrn     = get('c-ogrn')     || '[ОГРН]';
   const address  = get('c-address')  || '[адрес]';
-  const date     = get('c-date')     || new Date().toLocaleDateString('ru-RU');
+  const phone    = get('c-phone')    || '[телефон]';
   const service  = get('c-service')  || '[вид услуги]';
   const amount   = get('c-amount')   ? parseInt(get('c-amount')).toLocaleString('ru-RU') + ' ₽' : '[сумма]';
   const deadline = get('c-deadline') || '[срок]';
+  const date     = get('c-date');
   const dateStr  = date ? new Date(date).toLocaleDateString('ru-RU') : new Date().toLocaleDateString('ru-RU');
 
   const text = `ДОГОВОР НА ОКАЗАНИЕ УСЛУГ В ОБЛАСТИ
 ИНФОРМАЦИОННОЙ БЕЗОПАСНОСТИ № ____
 
-г. Челябинск                              «${dateStr}»
+г. Челябинск                    «${dateStr}»
 
-ИСПОЛНИТЕЛЬ: Низамов Даниил Алексеевич
-ИНН: _____________, Тел: +7 991 174-51-13
-nizamov-tech.ru
+════════════════════════════════════════
 
-ЗАКАЗЧИК: ${org}
-в лице ${director}
+ИСПОЛНИТЕЛЬ:
+${myFio}
+Паспорт: ${myPassport}
+ИНН: ${myInn} (самозанятый)
+Адрес: ${myAddress}
+Тел: +7 991 174-51-13 · nizamov-tech.ru
+
+ЗАКАЗЧИК:
+${org}
+в лице директора ${director}
+ИНН: ${innOrg}   ОГРН: ${ogrn}
 Адрес: ${address}
+Тел: ${phone}
 
-═══════════════════════════════════════
+════════════════════════════════════════
 
 1. ПРЕДМЕТ ДОГОВОРА
 
-1.1. Исполнитель обязуется оказать услугу:
+1.1. Исполнитель оказывает услугу:
      «${service}»
 
 1.2. Срок выполнения: ${deadline}
+1.3. Стоимость: ${amount}
 
-1.3. Стоимость услуг: ${amount}
+════════════════════════════════════════
 
-═══════════════════════════════════════
-
-2. ПРАВА И ОБЯЗАННОСТИ СТОРОН
+2. ОБЯЗАННОСТИ СТОРОН
 
 2.1. Исполнитель обязуется:
-- Оказать услуги качественно и в срок
-- Не разглашать конфиденциальную информацию
-- Сообщать о невозможности выполнения работ
+• Оказать услуги качественно и в срок
+• Не разглашать конфиденциальную информацию
+• Сообщать о невозможности выполнения работ
+• Составить акт выполненных работ
 
 2.2. Заказчик обязуется:
-- Предоставить необходимый доступ к системам
-- Оплатить услуги в установленный срок
-- Не привлекать третьих лиц без согласования
+• Предоставить необходимый доступ к системам
+• Оплатить услуги по факту выполнения
+• Обеспечить безопасные условия работы
 
-═══════════════════════════════════════
+════════════════════════════════════════
 
 3. КОНФИДЕНЦИАЛЬНОСТЬ (NDA)
 
 3.1. Исполнитель обязуется хранить в тайне
-всю информацию полученную в ходе работ:
-пароли, данные, структуру сети, уязвимости.
+всю информацию, полученную в ходе работ:
+пароли, персональные данные, структуру сети,
+коммерческую тайну, уязвимости систем.
 
 3.2. Обязательство действует бессрочно.
 
 3.3. Исполнитель вправе упомянуть факт
 сотрудничества без раскрытия деталей.
 
-═══════════════════════════════════════
+════════════════════════════════════════
 
 4. ОГРАНИЧЕНИЕ ОТВЕТСТВЕННОСТИ
 
 4.1. Исполнитель не несёт ответственности
 за невозможность восстановления данных
-при отсутствии резервных копий.
+при отсутствии резервных копий у Заказчика.
 
 4.2. Исполнитель не гарантирует полную
 защиту от будущих кибератак.
 
-4.3. Ответственность ограничена стоимостью
-оказанных услуг по настоящему договору.
+4.3. Ответственность Исполнителя ограничена
+стоимостью услуг по настоящему договору.
 
-═══════════════════════════════════════
+════════════════════════════════════════
 
 5. ОПЛАТА
 
 5.1. Стоимость: ${amount}
 5.2. Оплата: по факту оказания услуг
-5.3. Форма: наличные / перевод на карту
+5.3. Реквизиты Исполнителя: ${myBank}
 
-═══════════════════════════════════════
+════════════════════════════════════════
+
+6. СРОК ДЕЙСТВИЯ
+
+6.1. Договор вступает в силу с момента
+подписания и действует до полного исполнения
+обязательств сторонами.
+
+════════════════════════════════════════
 
 ПОДПИСИ СТОРОН:
 
-Исполнитель:                 Заказчик:
-Низамов Д.А.                ${director}
+ИСПОЛНИТЕЛЬ:            ЗАКАЗЧИК:
+${myFio}               ${director}
 
-_____________ /Низамов/      _____________ /__________/
+_________________       _________________
+   /подпись/               /подпись/
 
-Дата: «${dateStr}»           Дата: «${dateStr}»`;
+«${dateStr}»            «${dateStr}»
+
+Экземпляр № ___ из 2`;
 
   document.getElementById('contract-text').textContent = text;
   document.getElementById('contract-result').classList.remove('hidden');
@@ -3861,6 +3965,9 @@ function initSettings() {
     tEl.textContent = t === 'dark' ? 'Тёмная' : 'Светлая';
   }
 
+  // Загружаем мои данные в форму
+  loadMyDataToForm();
+
   // Проверка Supabase
   checkSupabase();
 }
@@ -3957,7 +4064,7 @@ function generateAct() {
 об инциденте информационной безопасности
 
 Дата составления: ${dateStr}
-Специалист: Низамов Даниил, Nizamov.tech, +7 991 174-51-13
+Специалист: Низамов Даниил, nizamov-tech.ru, +7 991 174-51-13
 
 ═══════════════════════════════════════
 
