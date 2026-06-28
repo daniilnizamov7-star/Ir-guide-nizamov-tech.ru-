@@ -1402,6 +1402,210 @@ cmd /c mklink /d C:\ShadowRestore &quot;$path&quot;">
   </div>
 </div>
 
+<!-- ==================== ЭКРАН WAZUH ==================== -->
+<div id="screen-wazuh" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="goBack()" aria-label="Назад">‹</button>
+    <div class="section-header-title">🛡️ Wazuh мониторинг</div>
+  </header>
+  <div class="section-content">
+
+    <div class="alert-card blue" style="margin-bottom:16px">
+      <div class="alert-title">Ставишь ПОСЛЕ инцидента</div>
+      <ul class="alert-list">
+        <li>Сначала убей вирус и закрой дыру</li>
+        <li>Потом ставишь Wazuh — он следит чтобы не повторилось</li>
+        <li>Ты получаешь алерт в телефон при новой атаке</li>
+      </ul>
+    </div>
+
+    <div class="section-title">Установка агента на Windows</div>
+    <div class="alert-card yellow" style="margin-bottom:12px">
+      <div class="alert-title">Требования</div>
+      <ul class="alert-list">
+        <li>Windows Server 2012 R2+ или Windows 10+</li>
+        <li>Интернет на сервере клиента</li>
+        <li>Права администратора</li>
+        <li>Твой Wazuh сервер в облаке (cloud.wazuh.com)</li>
+      </ul>
+    </div>
+
+    <button class="copy-btn" onclick="copyData(this)" data-copy="Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.7.0-1.msi -OutFile wazuh-agent.msi">
+      <div class="copy-icon">⬇️</div>
+      <div class="copy-info">
+        <div class="copy-title">Шаг 1 — Скачать агент</div>
+        <div class="copy-code">Invoke-WebRequest ... wazuh-agent-4.7.0-1.msi</div>
+      </div>
+      <div class="copy-badge">✓</div>
+    </button>
+
+    <button class="copy-btn" onclick="copyData(this)" data-copy="msiexec.exe /i wazuh-agent.msi /q WAZUH_MANAGER=&quot;ВАШ_IP_СЕРВЕРА&quot; WAZUH_AGENT_NAME=&quot;client-server&quot;">
+      <div class="copy-icon">⚙️</div>
+      <div class="copy-info">
+        <div class="copy-title">Шаг 2 — Установить агент</div>
+        <div class="copy-code">msiexec /i wazuh-agent.msi WAZUH_MANAGER="IP"</div>
+      </div>
+      <div class="copy-badge">✓</div>
+    </button>
+
+    <button class="copy-btn" onclick="copyData(this)" data-copy="NET START WazuhSvc">
+      <div class="copy-icon">▶️</div>
+      <div class="copy-info">
+        <div class="copy-title">Шаг 3 — Запустить службу</div>
+        <div class="copy-code">NET START WazuhSvc</div>
+      </div>
+      <div class="copy-badge">✓</div>
+    </button>
+
+    <button class="copy-btn" onclick="copyData(this)" data-copy="Get-Service WazuhSvc | Select-Object Name, Status, StartType">
+      <div class="copy-icon">✅</div>
+      <div class="copy-info">
+        <div class="copy-title">Шаг 4 — Проверить что работает</div>
+        <div class="copy-code">Get-Service WazuhSvc → Status: Running</div>
+      </div>
+      <div class="copy-badge">✓</div>
+    </button>
+
+    <div class="section-title" style="margin-top:4px">Также ставим Sysmon</div>
+    <div class="alert-card green" style="margin-bottom:12px">
+      <div class="alert-title">Sysmon — углублённые логи Windows (бесплатно)</div>
+      <ul class="alert-list">
+        <li>Детальные логи всех процессов и соединений</li>
+        <li>Wazuh читает Sysmon и анализирует</li>
+        <li>Вместе — мощная система обнаружения</li>
+      </ul>
+    </div>
+
+    <button class="copy-btn" onclick="copyData(this)" data-copy="Invoke-WebRequest -Uri https://download.sysinternals.com/files/Sysmon.zip -OutFile Sysmon.zip; Expand-Archive Sysmon.zip; .\Sysmon\Sysmon64.exe -accepteula -i">
+      <div class="copy-icon">📊</div>
+      <div class="copy-info">
+        <div class="copy-title">Установить Sysmon</div>
+        <div class="copy-code">Sysmon64.exe -accepteula -i</div>
+      </div>
+      <div class="copy-badge">✓</div>
+    </button>
+
+    <div class="section-title" style="margin-top:4px">Что говоришь клиенту</div>
+    <div class="alert-card green">
+      <div class="alert-title">Продаёшь ретейнер</div>
+      <ul class="alert-list">
+        <li>Университет узнал о взломе когда всё зашифровали</li>
+        <li>Мы узнаём в момент первой попытки входа</li>
+        <li>5 000–10 000 ₽/мес — звоню сам если что-то подозрительное</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== ЭКРАН АКТ ==================== -->
+<div id="screen-act" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="goBack()" aria-label="Назад">‹</button>
+    <div class="section-header-title">📄 Акт для полиции</div>
+  </header>
+  <div class="section-content">
+
+    <div class="alert-card blue" style="margin-bottom:16px">
+      <div class="alert-title">Заполни прямо здесь — потом скопируй</div>
+      <ul class="alert-list">
+        <li>Заполняй по ходу работы на выезде</li>
+        <li>Кнопка внизу скопирует готовый текст акта</li>
+        <li>Вставь в Word или отправь клиенту</li>
+      </ul>
+    </div>
+
+    <!-- Форма акта -->
+    <div class="section-title">Сведения об инциденте</div>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+      <div>
+        <label class="login-label" for="act-org">Организация</label>
+        <input id="act-org" class="login-input" type="text" placeholder="ООО Завод Пример">
+      </div>
+      <div>
+        <label class="login-label" for="act-date">Дата инцидента</label>
+        <input id="act-date" class="login-input" type="date">
+      </div>
+      <div>
+        <label class="login-label" for="act-time">Время обнаружения</label>
+        <input id="act-time" class="login-input" type="time">
+      </div>
+      <div>
+        <label class="login-label" for="act-type">Тип атаки</label>
+        <select id="act-type" class="login-input">
+          <option value="Ransomware (шифровальщик)">Ransomware (шифровальщик)</option>
+          <option value="Взлом RDP">Взлом RDP</option>
+          <option value="Фишинг">Фишинг</option>
+          <option value="Утечка данных">Утечка данных</option>
+          <option value="Дефейс сайта">Дефейс сайта</option>
+          <option value="Иное">Иное</option>
+        </select>
+      </div>
+      <div>
+        <label class="login-label" for="act-ip">IP атакующего (из логов)</label>
+        <input id="act-ip" class="login-input" type="text" placeholder="185.234.219.47">
+      </div>
+      <div>
+        <label class="login-label" for="act-vector">Вектор входа</label>
+        <select id="act-vector" class="login-input">
+          <option value="RDP брутфорс (порт 3389)">RDP брутфорс (порт 3389)</option>
+          <option value="Фишинговое письмо">Фишинговое письмо</option>
+          <option value="Уязвимость в ПО">Уязвимость в ПО</option>
+          <option value="Скомпрометированные учётные данные">Скомпрометированные учётные данные</option>
+          <option value="Не установлен">Не установлен</option>
+        </select>
+      </div>
+      <div>
+        <label class="login-label" for="act-damage">Что зашифровано / пострадало</label>
+        <input id="act-damage" class="login-input" type="text" placeholder="1С база, документы, файлы сервера">
+      </div>
+      <div>
+        <label class="login-label" for="act-machines">Количество заражённых машин</label>
+        <input id="act-machines" class="login-input" type="number" placeholder="5" min="1">
+      </div>
+      <div>
+        <label class="login-label" for="act-backup">Резервные копии</label>
+        <select id="act-backup" class="login-input">
+          <option value="Уничтожены взломщиком">Уничтожены взломщиком</option>
+          <option value="Восстановлены из резервной копии">Восстановлены из резервной копии</option>
+          <option value="Восстановлены из теневых копий">Восстановлены из теневых копий</option>
+          <option value="Отсутствовали">Отсутствовали</option>
+          <option value="Восстановление невозможно">Восстановление невозможно</option>
+        </select>
+      </div>
+      <div>
+        <label class="login-label" for="act-ransom">Требование выкупа</label>
+        <input id="act-ransom" class="login-input" type="text" placeholder="50 000 руб в биткоинах / Нет">
+      </div>
+      <div>
+        <label class="login-label" for="act-notes">Дополнительно</label>
+        <input id="act-notes" class="login-input" type="text" placeholder="Файл требования: README.txt">
+      </div>
+    </div>
+
+    <button class="action-btn blue" onclick="generateAct()">
+      📋 Сгенерировать акт
+    </button>
+
+    <!-- Результат -->
+    <div id="act-result" class="hidden" style="margin-top:16px">
+      <div class="section-title">Готовый текст акта</div>
+      <div id="act-text" style="
+        background:var(--bg2);border:1px solid var(--border);
+        border-radius:var(--radius-sm);padding:14px;
+        font-size:12px;line-height:1.6;color:var(--text);
+        white-space:pre-wrap;word-break:break-word;
+        max-height:300px;overflow-y:auto;margin-bottom:10px;
+      "></div>
+      <button class="action-btn green" onclick="copyActText()">
+        📋 Скопировать акт
+      </button>
+    </div>
+
+  </div>
+</div>
+
 <!-- ==================== ЭКРАН РАЗДЕЛА (заглушка) ==================== -->
 <div id="screen-section" class="hidden">
   <header class="section-header">
@@ -1632,7 +1836,7 @@ document.getElementById('pass-input').addEventListener('keydown', e => {
 // ==============================
 // НАВИГАЦИЯ
 // ==============================
-const SCREENS = ['loading', 'login', 'main', 'section', 'call', 'analysis', 'shadow', '1c'];
+const SCREENS = ['loading', 'login', 'main', 'section', 'call', 'analysis', 'shadow', '1c', 'wazuh', 'act'];
 let currentScreen = 'loading';
 let prevScreen = null;
 
@@ -1665,6 +1869,8 @@ function openSection(id) {
   if (id === 'analysis') { showScreen('analysis'); return; }
   if (id === 'shadow')   { showScreen('shadow');   return; }
   if (id === '1c')       { showScreen('1c');       return; }
+  if (id === 'wazuh')    { showScreen('wazuh');    return; }
+  if (id === 'act')      { initActForm(); showScreen('act'); return; }
 
   const s = SECTIONS[id];
   if (!s) return;
@@ -1676,7 +1882,7 @@ function openSection(id) {
 }
 
 function goBack() {
-  const mainScreens = ['call', 'analysis', 'shadow', '1c', 'section'];
+  const mainScreens = ['call','analysis','shadow','1c','wazuh','act','section'];
   if (mainScreens.includes(currentScreen)) {
     showScreen('main');
   } else if (prevScreen && prevScreen !== currentScreen) {
@@ -1689,12 +1895,111 @@ function goBack() {
 // Android back button
 window.addEventListener('popstate', e => {
   e.preventDefault();
-  if (['call', 'analysis', 'shadow', '1c', 'section'].includes(currentScreen)) {
+  if (['call','analysis','shadow','1c','wazuh','act','section'].includes(currentScreen)) {
     goBack();
     history.pushState(null, '', location.href);
   }
 });
 history.pushState(null, '', location.href);
+
+// ==============================
+// ЭТАП 4 — АКТ ДЛЯ ПОЛИЦИИ
+// ==============================
+function initActForm() {
+  // Ставим сегодняшнюю дату по умолчанию
+  const dateEl = document.getElementById('act-date');
+  if (dateEl && !dateEl.value) {
+    dateEl.value = new Date().toISOString().split('T')[0];
+  }
+  const timeEl = document.getElementById('act-time');
+  if (timeEl && !timeEl.value) {
+    const now = new Date();
+    timeEl.value = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  }
+}
+
+function generateAct() {
+  const get = id => (document.getElementById(id)?.value || '').trim();
+  const org      = get('act-org')      || '[не указано]';
+  const date     = get('act-date')     || '[не указано]';
+  const time     = get('act-time')     || '[не указано]';
+  const type     = get('act-type')     || '[не указано]';
+  const ip       = get('act-ip')       || '[не установлен]';
+  const vector   = get('act-vector')   || '[не установлен]';
+  const damage   = get('act-damage')   || '[не указано]';
+  const machines = get('act-machines') || '[не указано]';
+  const backup   = get('act-backup')   || '[не указано]';
+  const ransom   = get('act-ransom')   || 'Нет';
+  const notes    = get('act-notes')    || 'Нет';
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('ru-RU');
+
+  const text = `ТЕХНИЧЕСКИЙ АКТ
+об инциденте информационной безопасности
+
+Дата составления: ${dateStr}
+Специалист: Низамов Даниил, Nizamov.tech, +7 991 174-51-13
+
+═══════════════════════════════════════
+
+1. СВЕДЕНИЯ ОБ ОРГАНИЗАЦИИ
+Наименование: ${org}
+
+2. ОПИСАНИЕ ИНЦИДЕНТА
+Дата инцидента: ${date}
+Время обнаружения: ${time}
+Тип атаки: ${type}
+
+3. ТЕХНИЧЕСКИЕ ФАКТЫ
+Вектор входа: ${vector}
+IP адрес атакующего: ${ip}
+Количество заражённых машин: ${machines}
+Что пострадало: ${damage}
+Резервные копии: ${backup}
+Требование выкупа: ${ransom}
+
+4. ДОПОЛНИТЕЛЬНО
+${notes}
+
+5. ВЫПОЛНЕННЫЕ РАБОТЫ
+- Изоляция заражённых систем от сети
+- Сбор и сохранение доказательств
+- Идентификация вектора атаки
+- Удаление вредоносного ПО
+- Закрытие уязвимостей
+
+6. РЕКОМЕНДАЦИИ
+- Подать заявление в МВД (отдел К) по ст. 272 УК РФ
+- Уведомить Роскомнадзор при утечке ПДн (152-ФЗ, 24 часа)
+- Сменить все пароли учётных записей
+- Закрыть RDP порт 3389 от внешнего доступа
+- Настроить ежедневное резервное копирование
+- Провести инструктаж сотрудников
+
+═══════════════════════════════════════
+
+Специалист: Низамов Даниил ____________
+
+Представитель организации: ____________
+
+Дата: ${dateStr}`;
+
+  document.getElementById('act-text').textContent = text;
+  document.getElementById('act-result').classList.remove('hidden');
+  document.getElementById('act-result').scrollIntoView({ behavior: 'smooth' });
+}
+
+async function copyActText() {
+  const text = document.getElementById('act-text')?.textContent;
+  if (!text) return;
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('✓ Акт скопирован');
+  } catch {
+    showToast('Не удалось скопировать');
+  }
+}
 
 // ==============================
 // ЭТАП 2 — ЧЕКЛИСТ И КОПИРОВАНИЕ
