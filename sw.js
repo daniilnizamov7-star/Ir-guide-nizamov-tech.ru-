@@ -1,5 +1,5 @@
-// IR Guide Service Worker v1
-const CACHE = 'ir-guide-v1';
+// IR Guide Service Worker v5
+const CACHE = 'ir-guide-v5';
 const ASSETS = [
   '/',
   '/index.html',
