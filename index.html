@@ -3345,7 +3345,7 @@ input  { font-family: inherit; }
       <ul class="alert-list">
         <li>Строка после <b>-e</b> — это base64 encoded команда</li>
         <li>Зайди на <b>cyberchef.org</b> → операция «From Base64» → «Decode text UTF-16LE»</li>
-        <li>Или в PowerShell: <code>[System.Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('СТРОКА'))</code></li>
+        <li>Или в PowerShell:<br><code style="font-size:10px;word-break:break-all">[System.Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('СТРОКА'))</code></li>
         <li>Внутри часто ещё один слой — gzip + base64</li>
       </ul>
     </div>
