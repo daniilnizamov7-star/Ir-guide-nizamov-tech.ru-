@@ -1396,6 +1396,53 @@ input  { font-family: inherit; }
       </ul>
     </div>
 
+    <!-- Sysmon признаки атаки -->
+    <div class="section-title" style="margin-top:20px">🔍 Sysmon — признаки атаки</div>
+
+    <div class="alert-card red" style="margin-bottom:10px">
+      <div class="alert-title">🚨 Опасные команды в логах</div>
+      <ul class="alert-list">
+        <li><b>nc.exe … -e cmd.exe</b> — обратный шелл, злоумышленник получил управление</li>
+        <li><b>mshta.exe запустил powershell</b> — LOLBIN атака через HTA файл</li>
+        <li><b>ftp.exe от пользователя</b> — загрузка файлов через LOLBIN</li>
+        <li><b>set comspec=</b> — подмена cmd.exe, закрепление в системе</li>
+        <li><b>Invoke-WebRequest + нестандартный порт</b> — скачивание вредоноса</li>
+        <li><b>_MEIxxxxx\python27.dll в Temp</b> — PyInstaller малварь на Python</li>
+        <li><b>Image в C:\Windows\Temp\</b> — процесс из временной папки = подозрительно</li>
+      </ul>
+    </div>
+
+    <div class="alert-card" style="margin-bottom:10px;background:rgba(37,99,235,.13);border-color:rgba(37,99,235,.35)">
+      <div class="alert-title">🔎 Что искать через FullEventLogView</div>
+      <ul class="alert-list">
+        <li>В CommandLine: <b>nc.exe</b>, <b>mshta</b>, <b>ftp</b>, <b>-e cmd</b>, <b>set comspec</b></li>
+        <li>DestinationPort нестандартный — не 80 / 443 / 53</li>
+        <li>Нестандартные порты атакующих: 4444, 6969, 8080, 1234, 9898</li>
+        <li>Процессы LOLBIN: <b>mshta.exe</b>, <b>ftp.exe</b>, <b>certutil.exe</b>, <b>rundll32.exe</b></li>
+        <li>PowerShell с флагами <b>-nop -w hidden -e</b> = зашифрованная команда</li>
+      </ul>
+    </div>
+
+    <div class="alert-card green" style="margin-bottom:10px">
+      <div class="alert-title">📋 Типичная цепочка атаки</div>
+      <ul class="alert-list">
+        <li>1️⃣ Фишинг / HTA файл → первоначальный доступ</li>
+        <li>2️⃣ PowerShell скачивает бэкдор (supply.exe / rat.exe)</li>
+        <li>3️⃣ set comspec= → закрепление в системе</li>
+        <li>4️⃣ ipconfig / whoami → разведка сети</li>
+        <li>5️⃣ JuicyPotato / nc.exe → повышение привилегий + шелл</li>
+      </ul>
+    </div>
+
+    <div class="alert-card" style="margin-bottom:10px;background:rgba(120,53,15,.2);border-color:rgba(180,83,9,.4)">
+      <div class="alert-title">💡 Полезные сайты для анализа</div>
+      <ul class="alert-list">
+        <li><b>lolbas-project.github.io</b> — полный список LOLBIN бинарников</li>
+        <li><b>whois.domaintools.com</b> — обратный DNS по IP</li>
+        <li><b>url2png.com</b> — скриншот страницы по URL</li>
+      </ul>
+    </div>
+
     <!-- Сбор доказательств -->
     <div class="section-title" style="margin-top:20px">Сбор доказательств</div>
     <div class="alert-card blue" style="margin-bottom:12px">
@@ -1473,9 +1520,7 @@ input  { font-family: inherit; }
     </div>
 
     <div class="section-title">Шаг 2 — Подключить как папку</div>
-    <button class="copy-btn" onclick="copyData(this)" data-copy="$shadow = (Get-WmiObject Win32_ShadowCopy | Sort-Object InstallDate | Select-Object -Last 1)
-$path = $shadow.DeviceObject + '\'
-cmd /c mklink /d C:\ShadowRestore &quot;$path&quot;">
+    <button class="copy-btn" onclick="copyText(this, '$shadow = (Get-WmiObject Win32_ShadowCopy | Sort-Object InstallDate | Select-Object -Last 1)\n$path = $shadow.DeviceObject + \\'\\\\\\'\ncmd /c mklink /d C:\\\\ShadowRestore \"$path\"')">
       <div class="copy-icon">📂</div>
       <div class="copy-info">
         <div class="copy-title">Подключить последнюю копию</div>
@@ -1644,7 +1689,7 @@ cmd /c mklink /d C:\ShadowRestore &quot;$path&quot;">
       </div>
       <div class="copy-badge">✓</div>
     </button>
-    <button class="copy-btn" onclick="copyData(this)" data-copy="netsh advfirewall firewall add rule name=&quot;Block RDP&quot; protocol=TCP dir=in localport=3389 action=block">
+    <button class="copy-btn" onclick="copyText(this, 'netsh advfirewall firewall add rule name=\"Block RDP\" protocol=TCP dir=in localport=3389 action=block')">
       <div class="copy-icon">🛡️</div>
       <div class="copy-info">
         <div class="copy-title">Заблокировать RDP порт 3389</div>
@@ -1693,7 +1738,7 @@ cmd /c mklink /d C:\ShadowRestore &quot;$path&quot;">
       <div class="copy-badge">✓</div>
     </button>
 
-    <button class="copy-btn" onclick="copyData(this)" data-copy="msiexec.exe /i wazuh-agent.msi /q WAZUH_MANAGER=&quot;ВАШ_IP_СЕРВЕРА&quot; WAZUH_AGENT_NAME=&quot;client-server&quot;">
+    <button class="copy-btn" onclick="copyText(this, 'msiexec.exe /i wazuh-agent.msi /q WAZUH_MANAGER=\"ВАШ_IP_СЕРВЕРА\" WAZUH_AGENT_NAME=\"client-server\"')">
       <div class="copy-icon">⚙️</div>
       <div class="copy-info">
         <div class="copy-title">Шаг 2 — Установить агент</div>
