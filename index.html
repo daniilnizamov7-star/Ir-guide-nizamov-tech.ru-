@@ -2709,6 +2709,14 @@ input  { font-family: inherit; }
         </div>
         <div class="btn-arrow">›</div>
       </button>
+      <button class="menu-btn primary" onclick="openSection('ref-sysmon')">
+        <div class="btn-icon">🔍</div>
+        <div class="btn-info">
+          <div class="btn-title">Sysmon атаки</div>
+          <div class="btn-desc">LOLBIN · Обратный шелл · Цепочка атаки</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
       <button class="menu-btn neutral" onclick="openSection('ref-sites')">
         <div class="btn-icon">🔗</div>
         <div class="btn-info">
@@ -3164,6 +3172,61 @@ input  { font-family: inherit; }
 </div>
 
 
+
+<!-- ==================== СПРАВОЧНИК: SYSMON ==================== -->
+<div id="screen-ref-sysmon" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="openSection('ref')" aria-label="Назад">‹</button>
+    <div class="section-header-title">🔍 Sysmon атаки</div>
+  </header>
+  <div class="section-content">
+
+    <div class="section-title">🚨 Опасные команды в логах</div>
+    <div class="alert-card red" style="margin-bottom:10px">
+      <ul class="alert-list">
+        <li><b>nc.exe … -e cmd.exe</b> — обратный шелл, злоумышленник получил управление</li>
+        <li><b>mshta.exe → powershell</b> — LOLBIN атака через HTA файл</li>
+        <li><b>ftp.exe от пользователя</b> — загрузка файлов через LOLBIN</li>
+        <li><b>set comspec=</b> — подмена cmd.exe, закрепление в системе</li>
+        <li><b>Invoke-WebRequest + нестандартный порт</b> — скачивание вредоноса</li>
+        <li><b>_MEIxxxxx\python27.dll в Temp</b> — PyInstaller малварь на Python</li>
+        <li><b>Image в C:\Windows\Temp\</b> — процесс из временной папки</li>
+      </ul>
+    </div>
+
+    <div class="section-title" style="margin-top:16px">🔎 Что искать в FullEventLogView</div>
+    <div class="alert-card" style="margin-bottom:10px;background:rgba(37,99,235,.13);border-color:rgba(37,99,235,.35)">
+      <ul class="alert-list">
+        <li>В CommandLine: <b>nc.exe</b>, <b>mshta</b>, <b>ftp</b>, <b>-e cmd</b>, <b>set comspec</b></li>
+        <li>DestinationPort нестандартный — не 80 / 443 / 53</li>
+        <li>Нестандартные порты: 4444, 6969, 8080, 1234, 9898</li>
+        <li>PowerShell с <b>-nop -w hidden -e</b> = зашифрованная команда</li>
+        <li>Процессы LOLBIN: <b>mshta.exe</b>, <b>ftp.exe</b>, <b>certutil.exe</b>, <b>rundll32.exe</b></li>
+      </ul>
+    </div>
+
+    <div class="section-title" style="margin-top:16px">📋 Типичная цепочка атаки</div>
+    <div class="alert-card green" style="margin-bottom:10px">
+      <ul class="alert-list">
+        <li>1️⃣ Фишинг / HTA файл → первоначальный доступ</li>
+        <li>2️⃣ PowerShell скачивает бэкдор через нестандартный порт</li>
+        <li>3️⃣ set comspec= → закрепление в системе</li>
+        <li>4️⃣ ipconfig / whoami → разведка сети</li>
+        <li>5️⃣ JuicyPotato + nc.exe → повышение привилегий + шелл</li>
+      </ul>
+    </div>
+
+    <div class="section-title" style="margin-top:16px">💡 Полезные ссылки</div>
+    <div class="alert-card" style="background:rgba(120,53,15,.2);border-color:rgba(180,83,9,.4)">
+      <ul class="alert-list">
+        <li><b>lolbas-project.github.io</b> — полный список LOLBIN бинарников</li>
+        <li><b>whois.domaintools.com</b> — обратный DNS по IP</li>
+        <li><b>url2png.com</b> — скриншот страницы по URL</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
 
 <!-- ==================== ЧЕКЛИСТ ДО ВЫЕЗДА ==================== -->
 <div id="screen-checklist-before" class="hidden screen-inner">
